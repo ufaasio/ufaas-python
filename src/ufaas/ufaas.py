@@ -16,7 +16,7 @@ class UFaaS(UssoSession, metaclass=singleton.Singleton):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: "UssoSession" | None = None,
+        client: UssoSession | None = None,
     ):
         UssoSession.__init__(
             usso_base_url=usso_base_url,
@@ -48,7 +48,7 @@ class AsyncUFaaS(AsyncUssoSession, metaclass=singleton.Singleton):
         api_key: str | None = os.getenv("UFILES_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: "AsyncUssoSession" | None = None,
+        client: AsyncUssoSession | None = None,
     ):
         AsyncUssoSession.__init__(
             usso_base_url=usso_base_url,
