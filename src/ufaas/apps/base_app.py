@@ -32,7 +32,7 @@ class App(UssoSession, metaclass=singleton.Singleton):
             ufaas_base_url = f"{ufaas_base_url}/api/v1/apps"
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
-        self.app_url = f"{ufaas_base_url}/{app_name}"
+        self.app_url = f"{ufaas_base_url}/{app_name}/"
         self.initiate_resources()
 
     def initiate_resources(self, **kwargs):
@@ -67,7 +67,7 @@ class AsyncApp(AsyncUssoSession, metaclass=singleton.Singleton):
             ufaas_base_url = f"{ufaas_base_url}/api/v1/apps"
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
-        self.app_url = f"{ufaas_base_url}/{app_name}"
+        self.app_url = f"{ufaas_base_url}/{app_name}/"
         self.initiate_resources()
 
     def initiate_resources(self, **kwargs):
@@ -104,8 +104,8 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.resource_name = resource_name
-        self.app_url = f"{ufaas_base_url}/{app_name}"
-        self.resource_url = f"{self.app_url}/{resource_name}"
+        self.app_url = f"{ufaas_base_url}/{app_name}/"
+        self.resource_url = f"{self.app_url}/{resource_name}/"
         self._config_schemas(schema)
 
     def _config_schemas(self, schema: type = dict, **kwargs):
@@ -181,8 +181,8 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.resource_name = resource_name
-        self.app_url = f"{ufaas_base_url}/{app_name}"
-        self.resource_url = f"{self.app_url}/{resource_name}"
+        self.app_url = f"{ufaas_base_url}/{app_name}/"
+        self.resource_url = f"{self.app_url}/{resource_name}/"
         self._config_schemas(schema)
 
     def _config_schemas(self, schema: type = dict, **kwargs):
