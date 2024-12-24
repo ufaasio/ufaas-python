@@ -68,6 +68,15 @@ class EnrollmentSchema(EnrollmentCreateSchema, BusinessOwnedEntitySchema):
     paid_at: datetime | None = None
 
 
+class UsageCreateSchema(BaseModel):
+    user_id: uuid.UUID
+    enrollment_id: uuid.UUID | None = None
+    asset: str
+    amount: Decimal = Decimal(1)
+    variant: str | None = None
+    meta_data: dict | None = None
+
+
 class UsageConsumption(BaseModel):
     enrollment_id: uuid.UUID
     amount: Decimal
