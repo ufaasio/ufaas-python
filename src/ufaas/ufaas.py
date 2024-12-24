@@ -2,7 +2,9 @@ import os
 
 import singleton
 from usso.session import AsyncUssoSession, UssoSession
-from .apps.saas import SaaS, AsyncSaaS
+
+from .apps.saas import AsyncSaaS, SaaS
+
 
 class UFaaS(UssoSession, metaclass=singleton.Singleton):
 

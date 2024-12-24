@@ -2,8 +2,9 @@ import os
 
 from usso.session import AsyncUssoSession, UssoSession
 
-from ..base_app import App, AsyncApp, Resource, AsyncResource
+from ..base_app import App, AsyncApp, AsyncResource, Resource
 from .schemas import EnrollmentSchema, UsageSchema
+
 
 class SaaS(App):
     def __init__(
@@ -25,7 +26,6 @@ class SaaS(App):
             refresh_token=refresh_token,
             client=client,
         )
-
 
     def initiate_resources(self, **kwargs):
         self.usages = Usage(client=self)
@@ -53,7 +53,7 @@ class AsyncSaaS(AsyncApp):
             refresh_token=refresh_token,
             client=client,
         )
-    
+
     def initiate_resources(self, **kwargs):
         self.usages = AsyncUsage(client=self)
         self.enrollments = AsyncEnrollment(client=self)
