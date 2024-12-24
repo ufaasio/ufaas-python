@@ -30,7 +30,25 @@ class AcquisitionType(str, Enum):
     postpaid = "postpaid"
 
 
-class EnrollmentSchema(BusinessOwnedEntitySchema):
+class EnrollmentCreateSchema(BaseModel):
+    user_id: uuid.UUID
+    bundles: list[Bundle]
+
+    price: Decimal = Decimal(0)
+    invoice_id: str | None = None
+    start_at: datetime = Field(default_factory=datetime.now)
+    expire_at: datetime | None = None
+    duration: int | None = Field(None, description="Duration in days")
+    status: Literal["active", "inactive"] = "active"
+    acquisition_type: AcquisitionType = AcquisitionType.purchased
+
+    variant: str | None = None
+    meta_data: dict | None = None
+
+    due_date: datetime | None = None
+
+
+class EnrollmentSchema(EnrollmentCreateSchema, BusinessOwnedEntitySchema):
     user_id: uuid.UUID
     bundles: list[Bundle]
 

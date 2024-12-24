@@ -24,6 +24,8 @@ class App(UssoSession, metaclass=singleton.Singleton):
             refresh_token=refresh_token,
             client=client,
         )
+        if not ufaas_base_url and client and hasattr(client, "ufaas_base_url"):
+            ufaas_base_url = client.ufaas_base_url
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.app_url = f"{ufaas_base_url}/{app_name}"
@@ -53,6 +55,8 @@ class AsyncApp(AsyncUssoSession, metaclass=singleton.Singleton):
             refresh_token=refresh_token,
             client=client,
         )
+        if not ufaas_base_url and client and hasattr(client, "ufaas_base_url"):
+            ufaas_base_url = client.ufaas_base_url
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.app_url = f"{ufaas_base_url}/{app_name}"
@@ -83,6 +87,8 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
             refresh_token=refresh_token,
             client=client,
         )
+        if not ufaas_base_url and client and hasattr(client, "ufaas_base_url"):
+            ufaas_base_url = client.ufaas_base_url
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.resource_name = resource_name
@@ -154,7 +160,8 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
             refresh_token=refresh_token,
             client=client,
         )
-
+        if not ufaas_base_url and client and hasattr(client, "ufaas_base_url"):
+            ufaas_base_url = client.ufaas_base_url
         self.ufaas_base_url = ufaas_base_url
         self.app_name = app_name
         self.resource_name = resource_name
