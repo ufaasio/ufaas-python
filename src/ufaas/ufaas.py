@@ -43,7 +43,7 @@ class AsyncUFaaS(AsyncUssoSession, metaclass=singleton.Singleton):
     def __init__(
         self,
         *,
-        ufaas_base_url: str = os.getenv("UFILES_URL"),
+        ufaas_base_url: str = os.getenv("UFAAS_URL"),
         usso_base_url: str | None = os.getenv("USSO_URL"),
         api_key: str | None = os.getenv("UFILES_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
