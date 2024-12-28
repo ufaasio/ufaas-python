@@ -120,8 +120,8 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
         self.update_response_schema = schema
         self.delete_response_schema = schema
 
-    def list_items(self, offset: int = 0, limit: int = 10):
-        resp = self.get(self.resource_url, params={"offset": offset, "limit": limit})
+    def list_items(self, offset: int = 0, limit: int = 10, **kwargs):
+        resp = self.get(self.resource_url, params={"offset": offset, "limit": limit, **kwargs})
         resp.raise_for_status()
         return self.list_response_schema(**resp.json())
 
@@ -197,9 +197,9 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
         self.update_response_schema = schema
         self.delete_response_schema = schema
 
-    async def list_items(self, offset: int = 0, limit: int = 10):
+    async def list_items(self, offset: int = 0, limit: int = 10, **kwargs):
         resp = await self.get(
-            self.resource_url, params={"offset": offset, "limit": limit}
+            self.resource_url, params={"offset": offset, "limit": limit, **kwargs}
         )
         resp.raise_for_status()
         return self.list_response_schema(**await resp.json())
