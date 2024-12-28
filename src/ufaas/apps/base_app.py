@@ -162,10 +162,6 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
         client: AsyncUssoSession | None = None,
     ):
         super().__init__(
-            app_name=app_name,
-            resource_name=resource_name,
-            schema=schema,
-            ufaas_base_url=ufaas_base_url,
             usso_base_url=usso_base_url,
             api_key=api_key,
             usso_refresh_url=usso_refresh_url,
