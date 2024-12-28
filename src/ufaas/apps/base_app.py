@@ -125,23 +125,23 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
         resp.raise_for_status()
         return self.list_response_schema(**resp.json())
 
-    def retrieve_item(self, uid: str):
-        resp = self.get(f"{self.resource_url}/{uid}")
+    def retrieve_item(self, uid: str, **kwargs):
+        resp = self.get(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
-    def create_item(self, obj: dict):
-        resp = self.post(self.resource_url, json=obj)
+    def create_item(self, obj: dict, **kwargs):
+        resp = self.post(self.resource_url, json=obj, params=kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**resp.json())
 
-    def update_item(self, uid: str, obj: dict):
-        resp = self.patch(f"{self.resource_url}/{uid}", json=obj)
+    def update_item(self, uid: str, obj: dict, **kwargs):
+        resp = self.patch(f"{self.resource_url}/{uid}", json=obj, params=kwargs)
         resp.raise_for_status()
         return self.update_response_schema(**resp.json())
 
-    def delete_item(self, uid: str):
-        resp = self.delete(f"{self.resource_url}/{uid}")
+    def delete_item(self, uid: str, **kwargs):
+        resp = self.delete(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**resp.json())
 
@@ -204,22 +204,22 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
         resp.raise_for_status()
         return self.list_response_schema(**await resp.json())
 
-    async def retrieve_item(self, uid: str):
-        resp = await self.get(f"{self.resource_url}/{uid}")
+    async def retrieve_item(self, uid: str, **kwargs):
+        resp = await self.get(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**await resp.json())
 
-    async def create_item(self, obj: dict):
-        resp = await self.post(self.resource_url, json=obj)
+    async def create_item(self, obj: dict, **kwargs):
+        resp = await self.post(self.resource_url, json=obj, params=kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**await resp.json())
 
-    async def update_item(self, uid: str, obj: dict):
-        resp = await self.patch(f"{self.resource_url}/{uid}", json=obj)
+    async def update_item(self, uid: str, obj: dict, **kwargs):
+        resp = await self.patch(f"{self.resource_url}/{uid}", json=obj, params=kwargs)
         resp.raise_for_status()
         return self.update_response_schema(**await resp.json())
 
-    async def delete_item(self, uid: str):
-        resp = await self.delete(f"{self.resource_url}/{uid}")
+    async def delete_item(self, uid: str, **kwargs):
+        resp = await self.delete(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**await resp.json())
