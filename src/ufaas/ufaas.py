@@ -31,6 +31,7 @@ class UFaaS(UssoSession, metaclass=singleton.Singleton):
         if ufaas_base_url.endswith("/"):
             ufaas_base_url = ufaas_base_url[:-1]
         self.ufaas_base_url = ufaas_base_url
+        self.headers.update({"accept-encoding": "identity"})
 
         self.initiate_apps()
 
@@ -63,7 +64,7 @@ class AsyncUFaaS(AsyncUssoSession, metaclass=singleton.Singleton):
         if ufaas_base_url.endswith("/"):
             ufaas_base_url = ufaas_base_url[:-1]
         self.ufaas_base_url = ufaas_base_url
-
+        self.headers.update({"accept-encoding": "identity"})
         self.initiate_apps()
 
     def initiate_apps(self):
