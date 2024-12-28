@@ -121,7 +121,9 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
         self.delete_response_schema = schema
 
     def list_items(self, offset: int = 0, limit: int = 10, **kwargs):
-        resp = self.get(self.resource_url, params={"offset": offset, "limit": limit, **kwargs})
+        resp = self.get(
+            self.resource_url, params={"offset": offset, "limit": limit, **kwargs}
+        )
         resp.raise_for_status()
         return self.list_response_schema(**resp.json())
 
@@ -198,24 +200,24 @@ class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
             self.resource_url, params={"offset": offset, "limit": limit, **kwargs}
         )
         resp.raise_for_status()
-        return self.list_response_schema(**await resp.json())
+        return self.list_response_schema(**resp.json())
 
     async def retrieve_item(self, uid: str, **kwargs):
         resp = await self.get(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
-        return self.retrieve_response_schema(**await resp.json())
+        return self.retrieve_response_schema(**resp.json())
 
     async def create_item(self, obj: dict, **kwargs):
         resp = await self.post(self.resource_url, json=obj, params=kwargs)
         resp.raise_for_status()
-        return self.create_response_schema(**await resp.json())
+        return self.create_response_schema(**resp.json())
 
     async def update_item(self, uid: str, obj: dict, **kwargs):
         resp = await self.patch(f"{self.resource_url}/{uid}", json=obj, params=kwargs)
         resp.raise_for_status()
-        return self.update_response_schema(**await resp.json())
+        return self.update_response_schema(**resp.json())
 
     async def delete_item(self, uid: str, **kwargs):
         resp = await self.delete(f"{self.resource_url}/{uid}", params=kwargs)
         resp.raise_for_status()
-        return self.delete_response_schema(**await resp.json())
+        return self.delete_response_schema(**resp.json())
