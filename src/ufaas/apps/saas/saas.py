@@ -83,6 +83,11 @@ class Usage(Resource):
             client=client,
         )
 
+    def cancel_item(self, uid: str, **kwargs):
+        resp = self.post(f"{self.resource_url}/{uid}/cancel", params=kwargs)
+        resp.raise_for_status()
+        return self.retrieve_response_schema(**resp.json())
+
 
 class AsyncUsage(AsyncResource):
 
@@ -107,6 +112,11 @@ class AsyncUsage(AsyncResource):
             refresh_token=refresh_token,
             client=client,
         )
+
+    async def cancel_item(self, uid: str, **kwargs):
+        resp = await self.post(f"{self.resource_url}/{uid}/cancel", params=kwargs)
+        resp.raise_for_status()
+        return self.retrieve_response_schema(**resp.json())
 
 
 class Enrollment(Resource):
