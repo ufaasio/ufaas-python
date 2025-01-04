@@ -6,7 +6,7 @@ from usso.session import AsyncUssoSession, UssoSession
 from .apps.saas import AsyncSaaS, SaaS
 
 
-class UFaaS(UssoSession, metaclass=singleton.Singleton):
+class UFaaS(UssoSession):
 
     def __init__(
         self,
@@ -39,7 +39,7 @@ class UFaaS(UssoSession, metaclass=singleton.Singleton):
         self.saas = SaaS(client=self)
 
 
-class AsyncUFaaS(AsyncUssoSession, metaclass=singleton.Singleton):
+class AsyncUFaaS(AsyncUssoSession):
 
     def __init__(
         self,

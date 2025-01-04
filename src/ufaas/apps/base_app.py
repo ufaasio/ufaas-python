@@ -5,7 +5,7 @@ from fastapi_mongo_base.schemas import PaginatedResponse
 from usso.session import AsyncUssoSession, UssoSession
 
 
-class App(UssoSession, metaclass=singleton.Singleton):
+class App(UssoSession):
     def __init__(
         self,
         app_name: str = "saas",
@@ -39,7 +39,7 @@ class App(UssoSession, metaclass=singleton.Singleton):
         pass
 
 
-class AsyncApp(AsyncUssoSession, metaclass=singleton.Singleton):
+class AsyncApp(AsyncUssoSession):
 
     def __init__(
         self,

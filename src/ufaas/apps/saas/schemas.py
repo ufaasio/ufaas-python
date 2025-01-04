@@ -57,6 +57,8 @@ class QuotaSchema(BaseModel):
     asset: str
     quota: Decimal
     unit: str | None = None
+    variant: str | None = None
+    _quota: Decimal | None = None
 
 
 class UsageCreateSchema(BaseModel):
