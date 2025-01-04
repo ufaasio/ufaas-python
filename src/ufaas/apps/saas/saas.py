@@ -85,7 +85,7 @@ class Usage(Resource):
         )
 
     def cancel_item(self, uid: str, **kwargs):
-        resp = self.post(f"{self.resource_url}/{uid}/cancel", params=kwargs)
+        resp = self.post(f"{self.resource_url}{uid}/cancel", params=kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
@@ -115,7 +115,7 @@ class AsyncUsage(AsyncResource):
         )
 
     async def cancel_item(self, uid: str, **kwargs):
-        resp = await self.post(f"{self.resource_url}/{uid}/cancel", params=kwargs)
+        resp = await self.post(f"{self.resource_url}{uid}/cancel", params=kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
@@ -153,7 +153,7 @@ class Enrollment(Resource):
         if isinstance(user_id, uuid.UUID):
             user_id = str(user_id)
         params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
-        resp = self.get(f"{self.resource_url}/quotas", params=params)
+        resp = self.get(f"{self.resource_url}quotas", params=params)
         resp.raise_for_status()
         return QuotaSchema(**resp.json())
 
@@ -191,6 +191,6 @@ class AsyncEnrollment(AsyncResource):
         if isinstance(user_id, uuid.UUID):
             user_id = str(user_id)
         params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
-        resp = await self.get(f"{self.resource_url}/quotas", params=params)
+        resp = await self.get(f"{self.resource_url}quotas", params=params)
         resp.raise_for_status()
         return QuotaSchema(**resp.json())
