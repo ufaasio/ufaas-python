@@ -1,10 +1,10 @@
-import uuid
 import os
+import uuid
 
 from usso.session import AsyncUssoSession, UssoSession
 
 from ..base_app import App, AsyncApp, AsyncResource, Resource
-from .schemas import EnrollmentSchema, UsageSchema
+from .schemas import EnrollmentSchema, QuotaSchema, UsageSchema
 
 
 class SaaS(App):
@@ -155,7 +155,7 @@ class Enrollment(Resource):
         params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
         resp = self.get(f"{self.resource_url}/quotas", params=params)
         resp.raise_for_status()
-        return resp.json()
+        return QuotaSchema(**resp.json())
 
 
 class AsyncEnrollment(AsyncResource):
@@ -193,4 +193,4 @@ class AsyncEnrollment(AsyncResource):
         params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
         resp = await self.get(f"{self.resource_url}/quotas", params=params)
         resp.raise_for_status()
-        return resp.json()
+        return QuotaSchema(**resp.json())

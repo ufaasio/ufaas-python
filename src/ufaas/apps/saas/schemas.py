@@ -53,6 +53,12 @@ class EnrollmentSchema(EnrollmentCreateSchema, BusinessOwnedEntitySchema):
     leftover_bundles: list[Bundle] = []
 
 
+class QuotaSchema(BaseModel):
+    asset: str
+    quota: Decimal
+    unit: str | None = None
+
+
 class UsageCreateSchema(BaseModel):
     user_id: uuid.UUID
     enrollment_id: uuid.UUID | None = None
