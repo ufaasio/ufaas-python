@@ -1,3 +1,4 @@
+import uuid
 import os
 
 from usso.session import AsyncUssoSession, UssoSession
@@ -142,6 +143,20 @@ class Enrollment(Resource):
             client=client,
         )
 
+    def get_quotas(
+        self,
+        asset: str,
+        user_id: uuid.UUID | None = None,
+        variant: str | None = None,
+        **kwargs,
+    ):
+        if isinstance(user_id, uuid.UUID):
+            user_id = str(user_id)
+        params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
+        resp = self.get(f"{self.resource_url}/quotas", params=params)
+        resp.raise_for_status()
+        return resp.json()
+
 
 class AsyncEnrollment(AsyncResource):
     def __init__(
@@ -165,3 +180,17 @@ class AsyncEnrollment(AsyncResource):
             refresh_token=refresh_token,
             client=client,
         )
+
+    async def get_quotas(
+        self,
+        asset: str,
+        user_id: uuid.UUID | None = None,
+        variant: str | None = None,
+        **kwargs,
+    ):
+        if isinstance(user_id, uuid.UUID):
+            user_id = str(user_id)
+        params = {"asset": asset, "user_id": user_id, "variant": variant, **kwargs}
+        resp = await self.get(f"{self.resource_url}/quotas", params=params)
+        resp.raise_for_status()
+        return resp.json()
