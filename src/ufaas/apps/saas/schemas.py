@@ -60,6 +60,8 @@ class QuotaSchema(BaseModel):
     variant: str | None = None
     _quota: Decimal | None = None
 
+    model_config = ConfigDict(allow_inf_nan=True)
+
 
 class UsageCreateSchema(BaseModel):
     user_id: uuid.UUID
