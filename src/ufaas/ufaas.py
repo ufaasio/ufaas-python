@@ -1,5 +1,5 @@
 import os
-
+from urllib.parse import urlparse
 import singleton
 from usso.session import AsyncUssoSession, UssoSession
 
@@ -18,6 +18,22 @@ class UFaaS(UssoSession):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoSession | None = None,
     ):
+        if usso_base_url is None:
+            # calculate sso_url using ufiles_url
+            # for example: media.pixiee.io/v1/f -> sso.pixiee.io
+            # for example: media.ufaas.io/v1/f -> sso.ufaas.io
+            # for example: media.pixy.ir/api/v1/f -> sso.pixy.ir
+            # for example: storage.pixy.ir/api/v1/f -> sso.pixy.ir
+            parsed_url = urlparse(ufaas_base_url)
+            netloc = parsed_url.netloc
+            netloc_parts = netloc.split(".")
+            if len(netloc_parts) > 2:
+                netloc_parts[0] = "sso"
+            else:
+                netloc_parts = ["sso", netloc]
+            netloc = ".".join(netloc_parts)
+            usso_base_url = f"https://{netloc}"
+
         super().__init__(
             usso_base_url=usso_base_url,
             api_key=api_key,
@@ -51,6 +67,22 @@ class AsyncUFaaS(AsyncUssoSession):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoSession | None = None,
     ):
+        if usso_base_url is None:
+            # calculate sso_url using ufiles_url
+            # for example: media.pixiee.io/v1/f -> sso.pixiee.io
+            # for example: media.ufaas.io/v1/f -> sso.ufaas.io
+            # for example: media.pixy.ir/api/v1/f -> sso.pixy.ir
+            # for example: storage.pixy.ir/api/v1/f -> sso.pixy.ir
+            parsed_url = urlparse(ufaas_base_url)
+            netloc = parsed_url.netloc
+            netloc_parts = netloc.split(".")
+            if len(netloc_parts) > 2:
+                netloc_parts[0] = "sso"
+            else:
+                netloc_parts = ["sso", netloc]
+            netloc = ".".join(netloc_parts)
+            usso_base_url = f"https://{netloc}"
+            
         super().__init__(
             usso_base_url=usso_base_url,
             api_key=api_key,
