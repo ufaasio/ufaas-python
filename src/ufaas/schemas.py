@@ -37,6 +37,14 @@ class WalletSchema(BusinessOwnedEntitySchema):
 
     is_default: bool = True
 
+    @field_serializer("wallet_type")
+    def serialize_wallet_type(self, wallet_type: WalletType) -> str:
+        return wallet_type.value
+
+    @field_serializer("main_currency")
+    def serialize_main_currency(self, main_currency: Currency) -> str:
+        return main_currency.value
+
 
 class WalletDetailSchema(WalletSchema):
     balance: dict[str, Decimal] = {}
@@ -46,14 +54,6 @@ class WalletDetailSchema(WalletSchema):
     @field_serializer("balance")
     def serialize_balance(self, balance: dict[str, Decimal]) -> dict[str, Decimal]:
         return {k: (v if v.is_finite() else Decimal(0)) for k, v in balance.items()}
-
-    @field_serializer("wallet_type")
-    def serialize_wallet_type(self, wallet_type: WalletType) -> str:
-        return wallet_type.value
-
-    @field_serializer("main_currency")
-    def serialize_main_currency(self, main_currency: Currency) -> str:
-        return main_currency.value
 
 
 class WalletCreateSchema(BaseModel):
