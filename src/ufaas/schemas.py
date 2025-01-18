@@ -38,7 +38,7 @@ class WalletSchema(BusinessOwnedEntitySchema):
     is_default: bool = True
 
 
-class WalletDetailSchema(BusinessOwnedEntitySchema):
+class WalletDetailSchema(WalletSchema):
     balance: dict[str, Decimal] = {}
 
     model_config = ConfigDict(allow_inf_nan=True)
