@@ -1,6 +1,6 @@
 import os
 from urllib.parse import urlparse
-import singleton
+
 from usso.session import AsyncUssoSession, UssoSession
 
 from .apps.saas import AsyncSaaS, SaaS
@@ -82,7 +82,7 @@ class AsyncUFaaS(AsyncUssoSession):
                 netloc_parts = ["sso", netloc]
             netloc = ".".join(netloc_parts)
             usso_base_url = f"https://{netloc}"
-            
+
         super().__init__(
             usso_base_url=usso_base_url,
             api_key=api_key,

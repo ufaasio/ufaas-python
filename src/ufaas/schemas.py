@@ -32,13 +32,14 @@ class WalletType(str, Enum):
 
 
 class WalletSchema(BusinessOwnedEntitySchema):
-    pass
+    wallet_type: WalletType = WalletType.user
+    main_currency: Currency = Currency.none
+
+    is_default: bool = True
 
 
 class WalletDetailSchema(BusinessOwnedEntitySchema):
     balance: dict[str, Decimal] = {}
-    wallet_type: WalletType = WalletType.user
-    main_currency: Currency
 
     model_config = ConfigDict(allow_inf_nan=True)
 
