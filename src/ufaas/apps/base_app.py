@@ -120,29 +120,33 @@ class Resource(UssoSession):
         self.delete_response_schema = schema
 
     def list_items(self, offset: int = 0, limit: int = 10, **kwargs):
+        kwparams = kwargs.pop("params", {})
+
         resp = self.get(
-            self.resource_url, params={"offset": offset, "limit": limit, **kwargs}
+            self.resource_url,
+            params={"offset": offset, "limit": limit} | kwparams,
+            **kwargs,
         )
         resp.raise_for_status()
         return self.list_response_schema(**resp.json())
 
     def retrieve_item(self, uid: str, **kwargs):
-        resp = self.get(f"{self.resource_url}/{uid}", params=kwargs)
+        resp = self.get(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
     def create_item(self, obj: dict, **kwargs):
-        resp = self.post(self.resource_url, json=obj, params=kwargs)
+        resp = self.post(self.resource_url, json=obj, **kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**resp.json())
 
     def update_item(self, uid: str, obj: dict, **kwargs):
-        resp = self.patch(f"{self.resource_url}/{uid}", json=obj, params=kwargs)
+        resp = self.patch(f"{self.resource_url}/{uid}", json=obj, **kwargs)
         resp.raise_for_status()
         return self.update_response_schema(**resp.json())
 
     def delete_item(self, uid: str, **kwargs):
-        resp = self.delete(f"{self.resource_url}/{uid}", params=kwargs)
+        resp = self.delete(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**resp.json())
 
@@ -195,28 +199,29 @@ class AsyncResource(AsyncUssoSession):
         self.delete_response_schema = schema
 
     async def list_items(self, offset: int = 0, limit: int = 10, **kwargs):
+        kwparams = kwargs.pop("params", {})
         resp = await self.get(
-            self.resource_url, params={"offset": offset, "limit": limit, **kwargs}
+            self.resource_url, params={"offset": offset, "limit": limit} | kwparams, **kwargs
         )
         resp.raise_for_status()
         return self.list_response_schema(**resp.json())
 
     async def retrieve_item(self, uid: str, **kwargs):
-        resp = await self.get(f"{self.resource_url}/{uid}", params=kwargs)
+        resp = await self.get(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
     async def create_item(self, obj: dict, **kwargs):
-        resp = await self.post(self.resource_url, json=obj, params=kwargs)
+        resp = await self.post(self.resource_url, json=obj, **kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**resp.json())
 
     async def update_item(self, uid: str, obj: dict, **kwargs):
-        resp = await self.patch(f"{self.resource_url}/{uid}", json=obj, params=kwargs)
+        resp = await self.patch(f"{self.resource_url}/{uid}", json=obj, **kwargs)
         resp.raise_for_status()
         return self.update_response_schema(**resp.json())
 
     async def delete_item(self, uid: str, **kwargs):
-        resp = await self.delete(f"{self.resource_url}/{uid}", params=kwargs)
+        resp = await self.delete(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**resp.json())
