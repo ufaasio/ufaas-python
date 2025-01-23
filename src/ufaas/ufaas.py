@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from usso.session import AsyncUssoSession, UssoSession
 
 from .apps.saas import AsyncSaaS, SaaS
+from .apps.basket import AsyncBasket, Basket
 
 
 class UFaaS(UssoSession):
@@ -53,6 +54,7 @@ class UFaaS(UssoSession):
 
     def initiate_apps(self):
         self.saas = SaaS(client=self)
+        self.basket = Basket(client=self)
 
 
 class AsyncUFaaS(AsyncUssoSession):
@@ -101,3 +103,4 @@ class AsyncUFaaS(AsyncUssoSession):
 
     def initiate_apps(self):
         self.saas = AsyncSaaS(client=self)
+        self.basket = AsyncBasket(client=self)
