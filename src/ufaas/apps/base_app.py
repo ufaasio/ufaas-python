@@ -1,6 +1,5 @@
 import os
 
-import singleton
 from fastapi_mongo_base.schemas import PaginatedResponse
 from usso.session import AsyncUssoSession, UssoSession
 
@@ -74,7 +73,7 @@ class AsyncApp(AsyncUssoSession):
         pass
 
 
-class Resource(UssoSession, metaclass=singleton.Singleton):
+class Resource(UssoSession):
     def __init__(
         self,
         app_name: str = "saas",
@@ -148,7 +147,7 @@ class Resource(UssoSession, metaclass=singleton.Singleton):
         return self.delete_response_schema(**resp.json())
 
 
-class AsyncResource(AsyncUssoSession, metaclass=singleton.Singleton):
+class AsyncResource(AsyncUssoSession):
 
     def __init__(
         self,
