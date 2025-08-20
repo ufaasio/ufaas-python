@@ -4,18 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ufaas"
-version = "0.3.1"
+version = "0.3.2"
 description = "A client for UFaaS."
 readme = "README.md"
 requires-python = ">=3.9"
-license = {file = "LICENSE.txt"}
+license = { file = "LICENSE.txt" }
 keywords = ["ufaas", "saas", "usso", "finance", "pricing", "pay as you go"]
-authors = [
-  {name = "Mahdi Kiani", email = "mahdikiany@gmail.com"}
-]
-maintainers = [
-  {name = "Mahdi Kiani", email = "mahdikiany@gmail.com"}
-]
+authors = [{ name = "Mahdi Kiani", email = "mahdikiany@gmail.com" }]
+maintainers = [{ name = "Mahdi Kiani", email = "mahdikiany@gmail.com" }]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -27,13 +23,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = [
-  "pydantic>=2",
-  "pyjwt[crypto]",
-  "usso>=0.27.2",
-  "fastapi_mongo_base",
-  "json-advanced"
-]
+dependencies = ["pydantic>=2", "usso>=0.28.38", "fastapi-mongo-base>=1.0.27"]
 
 [project.urls]
 "Homepage" = "https://github.com/ufilesorg/ufiles-python"
@@ -43,7 +33,7 @@ dependencies = [
 "Source" = "https://github.com/ufilesorg/ufiles-python"
 
 [tool.setuptools]
-package-data = {"singleton" = ["*.dat", "*.pyi", "py.typed"]}
+package-data = { "singleton" = ["*.dat", "*.pyi", "py.typed"] }
 
 [tool.ruff]
 line-length = 79
