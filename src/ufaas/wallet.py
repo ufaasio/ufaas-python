@@ -56,7 +56,8 @@ class BalanceSchema(BaseModel):
     available: Decimal = Field(ge=0)
 
     @model_validator(mode="before")
-    def validate_balance(cls, values: dict[str, object]) -> dict[str, object]:  # noqa: N805
+    @classmethod
+    def validate_balance(cls, values: dict[str, object]) -> dict[str, object]:
         total = Decimal(values.get("total"))
         held = Decimal(values.get("held"))
         available = Decimal(values.get("available"))

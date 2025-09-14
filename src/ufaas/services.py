@@ -4,6 +4,7 @@ from datetime import datetime
 import httpx
 from usso.utils import agent
 
+from .exceptions import NotFoundError
 from .hold import HoldStatus, WalletHoldCreateSchema, WalletHoldSchema
 from .proposal import Participant, ProposalCreateSchema, ProposalSchema
 from .wallet import WalletDetailSchema
@@ -32,11 +33,22 @@ class AccountingClient(httpx.AsyncClient):
         self.headers["Authorization"] = f"Bearer {token}"
         return token
 
-    async def get_wallet(self, wallet_id: str) -> WalletDetailSchema:
+    async def get_wallet(
+        self, wallet_id: str | None = None
+    ) -> WalletDetailSchema:
         await self.get_token("read:finance/accounting/wallet")
-        response = await self.get(f"/wallets/{wallet_id}")
+        response = await self.get(
+            f"/wallets/{wallet_id}" if wallet_id else "/wallets"
+        )
         response.raise_for_status()
-        return WalletDetailSchema.model_validate(response.json())
+        if wallet_id:
+            return WalletDetailSchema.model_validate(response.json())
+
+        for item in response.json().get("items", []):
+            if item.get("is_default"):
+                return WalletDetailSchema.model_validate(item)
+
+        raise NotFoundError("Wallet not found")
 
     async def get_holds(self, wallet_id: str) -> list[WalletHoldSchema]:
         await self.get_token("read:finance/accounting/hold")

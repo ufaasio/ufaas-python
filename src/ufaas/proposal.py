@@ -22,7 +22,8 @@ class Participant(BaseModel):
     hold_id: str | None = None
 
     @field_validator("amount", mode="before")
-    def validate_amount(cls, value: Decimal) -> Decimal:  # noqa: N805
+    @classmethod
+    def validate_amount(cls, value: Decimal) -> Decimal:
         return bsontools.decimal_amount(value)
 
 
@@ -36,7 +37,8 @@ class ProposalSchema(TenantUserEntitySchema, TaskMixin):
     participants: list[Participant]
 
     @field_validator("amount", mode="before")
-    def validate_amount(cls, value: Decimal) -> Decimal:  # noqa: N805
+    @classmethod
+    def validate_amount(cls, value: Decimal) -> Decimal:
         return bsontools.decimal_amount(value)
 
 
