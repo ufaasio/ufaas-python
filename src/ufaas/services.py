@@ -42,10 +42,12 @@ class AccountingClient(httpx.AsyncClient):
     ) -> WalletDetailSchema:
         await self.get_token("read:finance/accounting/wallet")
 
-        params = kwargs.pop("params") or {}
+        params = kwargs.pop("params", {}) or {}
         params.update({"user_id": user_id})
         response = await self.get(
-            f"/wallets/{wallet_id}" if wallet_id else "/wallets", params=params
+            f"/wallets/{wallet_id}" if wallet_id else "/wallets",
+            params=params,
+            **kwargs,
         )
         response.raise_for_status()
         if wallet_id:
