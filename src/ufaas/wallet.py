@@ -51,9 +51,9 @@ class WalletSchema(TenantUserEntitySchema):
 
 class BalanceSchema(BaseModel):
     currency: Currency
-    total: Decimal = Field(ge=0)
-    held: Decimal = Field(ge=0)
-    available: Decimal = Field(ge=0)
+    total: Decimal
+    held: Decimal
+    available: Decimal
 
     @model_validator(mode="before")
     @classmethod
