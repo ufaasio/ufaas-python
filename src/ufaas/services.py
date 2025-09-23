@@ -5,7 +5,12 @@ import httpx
 from usso.utils import agent
 
 from .exceptions import NotFoundError
-from .hold import HoldStatus, WalletHoldCreateSchema, WalletHoldSchema
+from .hold import (
+    HoldStatus,
+    WalletHoldCreateSchema,
+    WalletHoldSchema,
+    WalletHoldUpdateSchema,
+)
 from .proposal import Participant, ProposalCreateSchema, ProposalSchema
 from .wallet import WalletDetailSchema
 
@@ -97,6 +102,19 @@ class AccountingClient(httpx.AsyncClient):
                 expires_at=expires_at,
                 status=HoldStatus.ACTIVE,
             ).model_dump(mode="json"),
+        )
+        response.raise_for_status()
+        return WalletHoldSchema.model_validate(response.json())
+
+    async def release_hold(
+        self, wallet_id: str, hold_id: str
+    ) -> WalletHoldSchema:
+        await self.get_token("update:finance/accounting/hold")
+        response = await self.patch(
+            f"/wallets/{wallet_id}/holds/{hold_id}",
+            json=WalletHoldUpdateSchema(status=HoldStatus.RELEASED).model_dump(
+                mode="json"
+            ),
         )
         response.raise_for_status()
         return WalletHoldSchema.model_validate(response.json())
