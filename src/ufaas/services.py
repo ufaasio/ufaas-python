@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from decimal import Decimal
 
 import httpx
 from usso.utils import agent
@@ -125,7 +126,7 @@ class AccountingClient(httpx.AsyncClient):
         from_wallet_id: str,
         to_wallet_id: str,
         currency: str,
-        amount: float,
+        amount: float | Decimal,
         description: str | None = None,
         note: str | None = None,
         hold_id: str | None = None,
