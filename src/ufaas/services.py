@@ -248,7 +248,7 @@ class AccountingClient(httpx.AsyncClient):
         from_wallet_id: str,
         to_wallet_ids: list[str],
         currency: str,
-        amount: list[float | Decimal],
+        amounts: list[float | Decimal],
         description: str | None = None,
         note: str | None = None,
         hold_id: str | None = None,
@@ -260,7 +260,7 @@ class AccountingClient(httpx.AsyncClient):
             from_wallet_id: Source wallet ID
             to_wallet_ids: Destination wallet IDs
             currency: Currency code
-            amount: Transfer amount
+            amounts: Transfer amounts
             description: Optional description
             note: Optional note
             hold_id: Optional hold ID to use
@@ -269,7 +269,7 @@ class AccountingClient(httpx.AsyncClient):
             Created proposal schema
         """
         await self.get_token("create:finance/accounting/proposal")
-        total_amount = sum(amount)
+        total_amount = sum(amounts)
         response = await self.post(
             "/proposals",
             json=ProposalCreateSchema(
@@ -280,8 +280,8 @@ class AccountingClient(httpx.AsyncClient):
                         hold_id=hold_id,
                     ),
                     *[
-                        Participant(wallet_id=to_wallet_id, amount=amount)
-                        for to_wallet_id in to_wallet_ids
+                        Participant(wallet_id=to_wallet_id, amount=amounts[i])
+                        for i, to_wallet_id in enumerate(to_wallet_ids)
                     ],
                 ],
                 amount=total_amount,
