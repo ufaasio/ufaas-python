@@ -1,6 +1,7 @@
 """Enums for UFaaS application."""
 
 from enum import StrEnum
+from typing import Self
 
 
 class Currency(StrEnum):
@@ -21,7 +22,8 @@ class Currency(StrEnum):
 
     @classmethod
     def main_currency(cls) -> "Currency":
-        """Get the main currency.
+        """
+        Get the main currency.
 
         Returns:
             The main currency (IRR)
@@ -29,7 +31,8 @@ class Currency(StrEnum):
         return cls.IRR
 
     @property
-    def properties(self) -> dict[str, dict[str, str | int | bool]]:
+    def properties(self) -> dict:
+        """Get the currency properties."""
         return {
             Currency.IRR: {
                 "name": {
@@ -67,8 +70,9 @@ class Currency(StrEnum):
         }
 
     @property
-    def currency(self) -> "Currency":
-        """Get the currency instance.
+    def currency(self) -> Self:
+        """
+        Get the currency instance.
 
         Returns:
             Self reference
@@ -77,57 +81,63 @@ class Currency(StrEnum):
 
     @property
     def name(self) -> dict:
-        """Get the currency name dictionary.
+        """
+        Get the currency name dictionary.
 
         Returns:
             Dictionary with localized names
         """
-        return self.properties.get(self, {}).get("name")
+        return self.properties.get(self.value, {}).get("name")
 
     @property
     def symbol(self) -> str:
-        """Get the currency symbol.
+        """
+        Get the currency symbol.
 
         Returns:
             Currency symbol string
         """
-        return self.properties.get(self, {}).get("symbol")
+        return self.properties.get(self.value, {}).get("symbol")
 
     @property
     def precision(self) -> int:
-        """Get the currency precision.
+        """
+        Get the currency precision.
 
         Returns:
             Number of decimal places
         """
-        return self.properties.get(self, {}).get("precision")
+        return self.properties.get(self.value, {}).get("precision")
 
     @property
     def icon(self) -> str:
-        """Get the currency icon URL.
+        """
+        Get the currency icon URL.
 
         Returns:
             Icon URL string
         """
-        return self.properties.get(self, {}).get("icon")
+        return self.properties.get(self.value, {}).get("icon")
 
     @property
     def is_crypto(self) -> bool:
-        """Check if currency is cryptocurrency.
+        """
+        Check if currency is cryptocurrency.
 
         Returns:
             True if cryptocurrency, False otherwise
         """
-        return self.properties.get(self, {}).get("is_crypto")
+        return self.properties.get(self.value, {}).get("is_crypto")
 
     @property
     def color(self) -> str:
-        """Get the currency color.
+        """
+        Get the currency color.
 
         Returns:
             Color hex code string
         """
-        return self.properties.get(self, {}).get("color")
+        return self.properties.get(self.value, {}).get("color")
 
 
 class StatusEnum(StrEnum):

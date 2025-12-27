@@ -22,6 +22,15 @@ class Bundle(BaseModel):
 
     @field_validator("quota", mode="before")
     def validate_quota(self, value: Decimal) -> Decimal:
+        """
+        Validate quota amount.
+
+        Args:
+            value: Quota amount to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return bsontools.decimal_amount(value)
 
 

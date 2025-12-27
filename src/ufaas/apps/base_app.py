@@ -20,7 +20,8 @@ class App(UssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoClient | None = None,
     ) -> None:
-        """Initialize the App client.
+        """
+        Initialize the App client.
 
         Args:
             app_name: Name of the application
@@ -50,6 +51,12 @@ class App(UssoClient):
         self.initiate_resources()
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize application resources.
+
+        Args:
+            **kwargs: Additional keyword arguments
+        """
         pass
 
 
@@ -67,7 +74,8 @@ class AsyncApp(AsyncUssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize the AsyncApp client.
+        """
+        Initialize the AsyncApp client.
 
         Args:
             app_name: Name of the application
@@ -97,6 +105,12 @@ class AsyncApp(AsyncUssoClient):
         self.initiate_resources()
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize application-specific resources.
+
+        Args:
+            **kwargs: Additional keyword arguments for resource initialization
+        """
         pass
 
 
@@ -116,7 +130,8 @@ class Resource(UssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoClient | None = None,
     ) -> None:
-        """Initialize the Resource client.
+        """
+        Initialize the Resource client.
 
         Args:
             app_name: Name of the application
@@ -164,7 +179,8 @@ class Resource(UssoClient):
     def list_items(
         self, offset: int = 0, limit: int = 10, **kwargs: object
     ) -> object:
-        """List items with pagination.
+        """
+        List items with pagination.
 
         Args:
             offset: Number of items to skip
@@ -185,7 +201,8 @@ class Resource(UssoClient):
         return self.list_response_schema(**resp.json())
 
     def retrieve_item(self, uid: str, **kwargs: object) -> object:
-        """Retrieve a single item by UID.
+        """
+        Retrieve a single item by UID.
 
         Args:
             uid: Unique identifier of the item
@@ -199,7 +216,8 @@ class Resource(UssoClient):
         return self.retrieve_response_schema(**resp.json())
 
     def create_item(self, obj: dict, **kwargs: object) -> object:
-        """Create a new item.
+        """
+        Create a new item.
 
         Args:
             obj: Item data to create
@@ -213,7 +231,8 @@ class Resource(UssoClient):
         return self.create_response_schema(**resp.json())
 
     def update_item(self, uid: str, obj: dict, **kwargs: object) -> object:
-        """Update an existing item.
+        """
+        Update an existing item.
 
         Args:
             uid: Unique identifier of the item
@@ -228,7 +247,8 @@ class Resource(UssoClient):
         return self.update_response_schema(**resp.json())
 
     def delete_item(self, uid: str, **kwargs: object) -> object:
-        """Delete an item.
+        """
+        Delete an item.
 
         Args:
             uid: Unique identifier of the item
@@ -258,7 +278,8 @@ class AsyncResource(AsyncUssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize the AsyncResource client.
+        """
+        Initialize the AsyncResource client.
 
         Args:
             app_name: Name of the application
@@ -306,7 +327,8 @@ class AsyncResource(AsyncUssoClient):
     async def list_items(
         self, offset: int = 0, limit: int = 10, **kwargs: object
     ) -> object:
-        """List items with pagination asynchronously.
+        """
+        List items with pagination asynchronously.
 
         Args:
             offset: Number of items to skip
@@ -326,11 +348,31 @@ class AsyncResource(AsyncUssoClient):
         return self.list_response_schema(**resp.json())
 
     async def retrieve_item(self, uid: str, **kwargs: object) -> object:
+        """
+        Retrieve a single item by UID asynchronously.
+
+        Args:
+            uid: Unique identifier of the item
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Item in the configured schema format
+        """
         resp = await self.get(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
     async def create_item(self, obj: dict, **kwargs: object) -> object:
+        """
+        Create a new item asynchronously.
+
+        Args:
+            obj: Item data to create
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Created item in the configured schema format
+        """
         resp = await self.post(self.resource_url, json=obj, **kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**resp.json())
@@ -338,6 +380,17 @@ class AsyncResource(AsyncUssoClient):
     async def update_item(
         self, uid: str, obj: dict, **kwargs: object
     ) -> object:
+        """
+        Update an existing item asynchronously.
+
+        Args:
+            uid: Unique identifier of the item
+            obj: Updated item data
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Updated item in the configured schema format
+        """
         resp = await self.patch(
             f"{self.resource_url}/{uid}", json=obj, **kwargs
         )
@@ -345,6 +398,16 @@ class AsyncResource(AsyncUssoClient):
         return self.update_response_schema(**resp.json())
 
     async def delete_item(self, uid: str, **kwargs: object) -> object:
+        """
+        Delete an item asynchronously.
+
+        Args:
+            uid: Unique identifier of the item
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Deleted item in the configured schema format
+        """
         resp = await self.delete(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**resp.json())

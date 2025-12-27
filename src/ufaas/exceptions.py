@@ -14,6 +14,16 @@ class UFaaSError(Exception):
         message: dict | None = None,
         **kwargs: dict,
     ) -> None:
+        """
+        Initialize UFaaS error.
+
+        Args:
+            status_code: HTTP status code
+            error: Error code string
+            detail: Optional detail message
+            message: Optional message dictionary
+            **kwargs: Additional keyword arguments
+        """
         self.status_code = status_code
         self.error = error
         msg: dict = {}
@@ -35,7 +45,8 @@ class InsufficientFundsError(UFaaSError):
     """Exception raised for insufficient funds."""
 
     def __init__(self, detail: str | None = None) -> None:
-        """Initialize InsufficientFundsError.
+        """
+        Initialize InsufficientFundsError.
 
         Args:
             detail: Optional detail message
@@ -49,7 +60,8 @@ class InvalidRequestError(UFaaSError):
     """Exception raised for invalid requests."""
 
     def __init__(self, detail: str | None = None) -> None:
-        """Initialize InvalidRequestError.
+        """
+        Initialize InvalidRequestError.
 
         Args:
             detail: Optional detail message
@@ -63,7 +75,8 @@ class UnauthorizedError(UFaaSError):
     """Exception raised for unauthorized access."""
 
     def __init__(self, detail: str | None = None) -> None:
-        """Initialize UnauthorizedError.
+        """
+        Initialize UnauthorizedError.
 
         Args:
             detail: Optional detail message
@@ -75,7 +88,8 @@ class ForbiddenError(UFaaSError):
     """Exception raised for forbidden access."""
 
     def __init__(self, detail: str | None = None) -> None:
-        """Initialize ForbiddenError.
+        """
+        Initialize ForbiddenError.
 
         Args:
             detail: Optional detail message
@@ -87,7 +101,8 @@ class NotFoundError(UFaaSError):
     """Exception raised for resources not found."""
 
     def __init__(self, detail: str | None = None) -> None:
-        """Initialize NotFoundError.
+        """
+        Initialize NotFoundError.
 
         Args:
             detail: Optional detail message

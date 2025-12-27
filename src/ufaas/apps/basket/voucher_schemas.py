@@ -14,7 +14,8 @@ from ufaas.schemas import Currency
 
 
 def generate_human_readable_code(length: int = 6) -> str:
-    """Generate a human-readable voucher code.
+    """
+    Generate a human-readable voucher code.
 
     Args:
         length: Length of the code to generate
@@ -60,7 +61,8 @@ class VoucherCreateSchema(BaseModel):
     meta_data: dict | None = None
 
     def calculate_discount(self, amount: Decimal) -> Decimal:
-        """Calculate discount amount based on rate and cap.
+        """
+        Calculate discount amount based on rate and cap.
 
         Args:
             amount: Original amount to apply discount to

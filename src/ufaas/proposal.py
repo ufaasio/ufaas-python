@@ -1,3 +1,5 @@
+"""Proposal functionality for UFaaS."""
+
 from decimal import Decimal
 from enum import StrEnum
 
@@ -8,6 +10,8 @@ from pydantic import BaseModel, field_validator
 
 
 class ProposalStatus(StrEnum):
+    """Enumeration for proposal status values."""
+
     draft = "draft"
     init = "init"
     processing = "processing"
@@ -17,6 +21,8 @@ class ProposalStatus(StrEnum):
 
 
 class Participant(BaseModel):
+    """Schema for proposal participants."""
+
     wallet_id: str
     amount: Decimal
     hold_id: str | None = None
@@ -24,10 +30,21 @@ class Participant(BaseModel):
     @field_validator("amount", mode="before")
     @classmethod
     def validate_amount(cls, value: Decimal) -> Decimal:
+        """
+        Validate participant amount.
+
+        Args:
+            value: Amount to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return bsontools.decimal_amount(value)
 
 
 class ProposalSchema(TenantUserEntitySchema, TaskMixin):
+    """Schema for proposal information with tenant and user scope."""
+
     issuer_id: str
     amount: Decimal
     description: str | None = None
@@ -39,10 +56,21 @@ class ProposalSchema(TenantUserEntitySchema, TaskMixin):
     @field_validator("amount", mode="before")
     @classmethod
     def validate_amount(cls, value: Decimal) -> Decimal:
+        """
+        Validate proposal amount.
+
+        Args:
+            value: Amount to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return bsontools.decimal_amount(value)
 
 
 class ProposalCreateSchema(BaseModel):
+    """Schema for creating proposals."""
+
     amount: Decimal
     description: str | None = None
     note: str | None = None
@@ -53,6 +81,8 @@ class ProposalCreateSchema(BaseModel):
 
 
 class ProposalUpdateSchema(BaseModel):
+    """Schema for updating proposals."""
+
     # status: str | None
     status: ProposalStatus | None = None
     description: str | None = None

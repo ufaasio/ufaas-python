@@ -26,6 +26,15 @@ class DiscountSchema(BaseModel):
 
     @field_validator("discount", mode="before")
     def validate_discount(self, value: Decimal) -> Decimal:
+        """
+        Validate discount amount.
+
+        Args:
+            value: Discount amount to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return decimal_amount(value)
 
 
@@ -45,7 +54,8 @@ class BasketItemCreateSchema(BaseModel):
     # extra_data: dict | None = None
 
     def from_allowed_domain(self) -> bool:
-        """Check if the item is from an allowed domain.
+        """
+        Check if the item is from an allowed domain.
 
         Returns:
             Always returns True
@@ -53,7 +63,8 @@ class BasketItemCreateSchema(BaseModel):
         return True
 
     async def get_basket_item(self) -> "BasketItemSchema":
-        """Fetch basket item data from product URL.
+        """
+        Fetch basket item data from product URL.
 
         Returns:
             BasketItemSchema instance with fetched data
@@ -101,7 +112,8 @@ class BasketItemSchema(BasketItemCreateSchema):
 
     @property
     def price(self) -> Decimal:
-        """Calculate the final price after discount.
+        """
+        Calculate the final price after discount.
 
         Returns:
             Final price after applying discount
@@ -112,7 +124,8 @@ class BasketItemSchema(BasketItemCreateSchema):
         return price
 
     def exchange_fee(self, currency: Currency) -> int:
-        """Calculate exchange fee for currency conversion.
+        """
+        Calculate exchange fee for currency conversion.
 
         Args:
             currency: Target currency
@@ -130,14 +143,33 @@ class BasketItemSchema(BasketItemCreateSchema):
 
     @field_validator("unit_price", mode="before")
     def validate_price(self, value: Decimal) -> Decimal:
+        """
+        Validate unit price.
+
+        Args:
+            value: Unit price to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return decimal_amount(value)
 
     @field_validator("quantity", mode="before")
     def validate_quantity(self, value: Decimal) -> Decimal:
+        """
+        Validate quantity amount.
+
+        Args:
+            value: Quantity to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return decimal_amount(value)
 
     async def validate_product(self) -> bool:
-        """Validate product information and stock availability.
+        """
+        Validate product information and stock availability.
 
         Returns:
             True if product is valid and available, False otherwise
@@ -162,7 +194,8 @@ class BasketItemSchema(BasketItemCreateSchema):
         return validation_data.get("stock_quantity") >= self.quantity
 
     async def reserve_product(self) -> dict | None:
-        """Reserve the product if reserve URL is available.
+        """
+        Reserve the product if reserve URL is available.
 
         Returns:
             Reservation response data or None if no reserve URL
@@ -178,7 +211,8 @@ class BasketItemSchema(BasketItemCreateSchema):
             return response.json()
 
     async def webhook_product(self) -> dict | None:
-        """Send webhook notification for the product.
+        """
+        Send webhook notification for the product.
 
         Returns:
             Webhook response data or None if no webhook URL
@@ -229,7 +263,8 @@ class BasketDataSchema(TenantScopedEntitySchema):
 
     @property
     def is_modifiable(self) -> bool:
-        """Check if basket can be modified.
+        """
+        Check if basket can be modified.
 
         Returns:
             True if basket is active and modifiable
@@ -250,16 +285,43 @@ class BasketDetailSchema(BasketDataSchema):
     def validate_items(
         self, value: list[BasketItemSchema] | dict[str, BasketItemSchema]
     ) -> list[BasketItemSchema]:
+        """
+        Validate items field.
+
+        Args:
+            value: Items to validate
+
+        Returns:
+            List of validated basket items
+        """
         if isinstance(value, dict):
             return list(value.values())
         return value
 
     @field_validator("subtotal", mode="before")
     def validate_subtotal(self, value: Decimal) -> Decimal:
+        """
+        Validate subtotal amount.
+
+        Args:
+            value: Subtotal to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return decimal_amount(value)
 
     @field_validator("amount", mode="before")
     def validate_amount(self, value: Decimal) -> Decimal:
+        """
+        Validate total amount.
+
+        Args:
+            value: Total amount to validate
+
+        Returns:
+            Validated decimal amount
+        """
         return decimal_amount(value)
 
 

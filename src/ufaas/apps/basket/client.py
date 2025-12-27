@@ -2,7 +2,7 @@
 
 import os
 
-from usso.session import AsyncUssoSession, UssoSession
+from usso.client import AsyncUssoClient, UssoClient
 
 from ..base_app import App, AsyncApp, AsyncResource, Resource
 from .basket_schemas import BasketDataSchema
@@ -20,9 +20,10 @@ class Basket(App):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize the Basket client.
+        """
+        Initialize the Basket client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -43,6 +44,12 @@ class Basket(App):
         )
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize basket application resources.
+
+        Args:
+            **kwargs: Additional keyword arguments
+        """
         self.baskets = BasketData(client=self)
         self.vouchers = Voucher(client=self)
 
@@ -58,9 +65,10 @@ class AsyncBasket(AsyncApp):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize the AsyncBasket client.
+        """
+        Initialize the AsyncBasket client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -81,6 +89,12 @@ class AsyncBasket(AsyncApp):
         )
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize async basket application resources.
+
+        Args:
+            **kwargs: Additional keyword arguments
+        """
         self.vouchers = AsyncVoucher(client=self)
 
 
@@ -95,9 +109,10 @@ class BasketData(Resource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize the BasketData resource client.
+        """
+        Initialize the BasketData resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -131,9 +146,10 @@ class AsyncBasketData(AsyncResource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize the AsyncBasketData resource client.
+        """
+        Initialize the AsyncBasketData resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -167,9 +183,10 @@ class Voucher(Resource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize Voucher resource client.
+        """
+        Initialize Voucher resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -203,9 +220,10 @@ class AsyncVoucher(AsyncResource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize AsyncVoucher resource client.
+        """
+        Initialize AsyncVoucher resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API

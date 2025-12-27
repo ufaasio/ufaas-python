@@ -22,7 +22,8 @@ class UFaaS(UssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoClient | None = None,
     ) -> None:
-        """Initialize the UFaaS client.
+        """
+        Initialize the UFaaS client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -67,7 +68,8 @@ class UFaaS(UssoClient):
         self.initiate_apps()
 
     def initiate_apps(self) -> None:
-        """Initialize application instances.
+        """
+        Initialize application instances.
 
         Creates SaaS and Basket application clients.
         """
@@ -88,7 +90,8 @@ class AsyncUFaaS(AsyncUssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize the AsyncUFaaS client.
+        """
+        Initialize the AsyncUFaaS client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -132,7 +135,8 @@ class AsyncUFaaS(AsyncUssoClient):
         self.initiate_apps()
 
     def initiate_apps(self) -> None:
-        """Initialize application instances.
+        """
+        Initialize application instances.
 
         Creates SaaS and Basket application clients.
         """

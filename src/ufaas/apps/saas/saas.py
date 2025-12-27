@@ -3,7 +3,7 @@
 import os
 import uuid
 
-from usso.session import AsyncUssoSession, UssoSession
+from usso.client import AsyncUssoClient, UssoClient
 
 from ..base_app import App, AsyncApp, AsyncResource, Resource
 from .schemas import EnrollmentSchema, QuotaSchema, UsageSchema
@@ -20,9 +20,10 @@ class SaaS(App):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize SaaS client.
+        """
+        Initialize SaaS client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -43,6 +44,12 @@ class SaaS(App):
         )
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize SaaS-specific resources.
+
+        Args:
+            **kwargs: Additional keyword arguments for resource initialization
+        """
         self.usages = Usage(client=self)
         self.enrollments = Enrollment(client=self)
 
@@ -58,9 +65,10 @@ class AsyncSaaS(AsyncApp):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize AsyncSaaS client.
+        """
+        Initialize AsyncSaaS client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -81,6 +89,12 @@ class AsyncSaaS(AsyncApp):
         )
 
     def initiate_resources(self, **kwargs: object) -> None:
+        """
+        Initialize AsyncSaaS-specific resources.
+
+        Args:
+            **kwargs: Additional keyword arguments for resource initialization
+        """
         self.usages = AsyncUsage(client=self)
         self.enrollments = AsyncEnrollment(client=self)
 
@@ -96,9 +110,10 @@ class Usage(Resource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize Usage resource client.
+        """
+        Initialize Usage resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -121,7 +136,8 @@ class Usage(Resource):
         )
 
     def cancel_item(self, uid: str, **kwargs: object) -> UsageSchema:
-        """Cancel a usage item.
+        """
+        Cancel a usage item.
 
         Args:
             uid: Unique identifier of the usage item
@@ -146,9 +162,10 @@ class AsyncUsage(AsyncResource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize AsyncUsage resource client.
+        """
+        Initialize AsyncUsage resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -171,7 +188,8 @@ class AsyncUsage(AsyncResource):
         )
 
     async def cancel_item(self, uid: str, **kwargs: object) -> UsageSchema:
-        """Cancel a usage item asynchronously.
+        """
+        Cancel a usage item asynchronously.
 
         Args:
             uid: Unique identifier of the usage item
@@ -196,9 +214,10 @@ class Enrollment(Resource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: UssoSession | None = None,
+        client: UssoClient | None = None,
     ) -> None:
-        """Initialize Enrollment resource client.
+        """
+        Initialize Enrollment resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -227,7 +246,8 @@ class Enrollment(Resource):
         variant: str | None = None,
         **kwargs: object,
     ) -> QuotaSchema:
-        """Get quota information for a user and asset.
+        """
+        Get quota information for a user and asset.
 
         Args:
             asset: Asset identifier
@@ -262,9 +282,10 @@ class AsyncEnrollment(AsyncResource):
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         usso_refresh_url: str | None = os.getenv("USSO_REFRESH_URL"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
-        client: AsyncUssoSession | None = None,
+        client: AsyncUssoClient | None = None,
     ) -> None:
-        """Initialize AsyncEnrollment resource client.
+        """
+        Initialize AsyncEnrollment resource client.
 
         Args:
             ufaas_base_url: Base URL for UFaaS API
@@ -293,7 +314,8 @@ class AsyncEnrollment(AsyncResource):
         variant: str | None = None,
         **kwargs: object,
     ) -> QuotaSchema:
-        """Get quota information asynchronously for a user and asset.
+        """
+        Get quota information asynchronously for a user and asset.
 
         Args:
             asset: Asset identifier
