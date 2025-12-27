@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ufaas"
-version = "0.3.9"
+version = "0.3.10"
 description = "A client for UFaaS."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -23,7 +23,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ["pydantic>=2", "usso>=0.28.38", "fastapi-mongo-base>=1.0.27"]
+dependencies = ["pydantic>=2", "usso>=0.29.7", "fastapi-mongo-base>=1.0.45"]
 
 [project.urls]
 "Homepage" = "https://github.com/ufilesorg/ufiles-python"
@@ -70,8 +70,10 @@ select = [
   # "ERA", # remove commented code
   "RUF", # ruff-specific improvements
 ]
-per-file-ignores = { "tests/*" = ["G004", "S101"], "server/db.py" = ["TRY"] }
-ignore = ["TRY003", "COM812"]
+ignore = ["TRY003", "COM812", "B008", "D202", "D203", "D209", "D212", "D413"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["G004","S101"]
 
 [tool.ruff.format]
 quote-style = "double"

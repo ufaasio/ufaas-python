@@ -1,3 +1,5 @@
+"""Enums for UFaaS application."""
+
 from enum import StrEnum
 
 

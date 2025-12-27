@@ -1,3 +1,5 @@
+"""Exception classes for UFaaS application."""
+
 error_messages: dict[str, str] = {}
 
 
@@ -45,9 +47,7 @@ class InvalidRequestError(UFaaSError):
 
 class UnauthorizedError(UFaaSError):
     def __init__(self, detail: str | None = None) -> None:
-        super().__init__(
-            status_code=401, error="unauthorized", detail=detail
-        )
+        super().__init__(status_code=401, error="unauthorized", detail=detail)
 
 
 class ForbiddenError(UFaaSError):

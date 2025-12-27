@@ -1,3 +1,5 @@
+"""Wallet schemas for UFaaS."""
+
 from decimal import Decimal
 from enum import StrEnum
 
@@ -8,16 +10,22 @@ from .enums import Currency
 
 
 class WalletOwnerType(StrEnum):
+    """Wallet owner type."""
+
     user = "user"
     tenant = "tenant"
     app = "app"
     system = "system"
+    broker = "broker"
 
 
 class WalletPurpose(StrEnum):
+    """Wallet purpose."""
+
     regular = "regular"
     treasury = "treasury"
     test = "test"
+    fees = "fees"
 
     # settlement = "settlement"
     # fee_collector = "fee_collector"
@@ -27,11 +35,15 @@ class WalletPurpose(StrEnum):
 
 
 class WalletBalanceType(StrEnum):
+    """Wallet balance type."""
+
     positive = "positive"
     negative = "negative"
 
 
 class WalletStatus(StrEnum):
+    """Wallet status."""
+
     active = "active"
     inactive = "inactive"
     pending = "pending"
@@ -40,6 +52,8 @@ class WalletStatus(StrEnum):
 
 
 class WalletSchema(TenantUserEntitySchema):
+    """Wallet schema."""
+
     wallet_purpose: WalletPurpose = WalletPurpose.regular
     owner_type: WalletOwnerType = WalletOwnerType.user
     balance_type: WalletBalanceType = WalletBalanceType.positive
@@ -50,6 +64,8 @@ class WalletSchema(TenantUserEntitySchema):
 
 
 class BalanceSchema(BaseModel):
+    """Balance schema."""
+
     currency: Currency
     total: Decimal
     held: Decimal
@@ -58,6 +74,8 @@ class BalanceSchema(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def validate_balance(cls, values: dict[str, object]) -> dict[str, object]:
+        """Validate balance."""
+
         total = Decimal(values.get("total"))
         held = Decimal(values.get("held"))
         available = Decimal(values.get("available"))
@@ -85,10 +103,14 @@ class BalanceSchema(BaseModel):
 
 
 class WalletDetailSchema(WalletSchema):
+    """Wallet detail schema."""
+
     balance: dict[str, BalanceSchema] = Field(default_factory=dict)
 
 
 class WalletCreateSchema(BaseModel):
+    """Wallet create schema."""
+
     user_id: str | None = None
     meta_data: dict | None = None
 
@@ -102,5 +124,7 @@ class WalletCreateSchema(BaseModel):
 
 
 class WalletUpdateSchema(BaseModel):
+    """Wallet update schema."""
+
     meta_data: dict | None = None
     is_default: bool | None = None
