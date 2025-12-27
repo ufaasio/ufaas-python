@@ -4,6 +4,8 @@ from enum import StrEnum
 
 
 class Currency(StrEnum):
+    """Enumeration for supported currencies."""
+
     # none = "none"
 
     IRR = "IRR"
@@ -19,6 +21,11 @@ class Currency(StrEnum):
 
     @classmethod
     def main_currency(cls) -> "Currency":
+        """Get the main currency.
+
+        Returns:
+            The main currency (IRR)
+        """
         return cls.IRR
 
     @property
@@ -61,34 +68,71 @@ class Currency(StrEnum):
 
     @property
     def currency(self) -> "Currency":
+        """Get the currency instance.
+
+        Returns:
+            Self reference
+        """
         return self
 
     @property
     def name(self) -> dict:
+        """Get the currency name dictionary.
+
+        Returns:
+            Dictionary with localized names
+        """
         return self.properties.get(self, {}).get("name")
 
     @property
     def symbol(self) -> str:
+        """Get the currency symbol.
+
+        Returns:
+            Currency symbol string
+        """
         return self.properties.get(self, {}).get("symbol")
 
     @property
     def precision(self) -> int:
+        """Get the currency precision.
+
+        Returns:
+            Number of decimal places
+        """
         return self.properties.get(self, {}).get("precision")
 
     @property
     def icon(self) -> str:
+        """Get the currency icon URL.
+
+        Returns:
+            Icon URL string
+        """
         return self.properties.get(self, {}).get("icon")
 
     @property
     def is_crypto(self) -> bool:
+        """Check if currency is cryptocurrency.
+
+        Returns:
+            True if cryptocurrency, False otherwise
+        """
         return self.properties.get(self, {}).get("is_crypto")
 
     @property
     def color(self) -> str:
+        """Get the currency color.
+
+        Returns:
+            Color hex code string
+        """
         return self.properties.get(self, {}).get("color")
 
 
 class StatusEnum(StrEnum):
+    """Enumeration for general status values."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     SUSPENDED = "suspended"

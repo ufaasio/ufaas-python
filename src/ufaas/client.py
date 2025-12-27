@@ -10,6 +10,8 @@ from .apps.saas import AsyncSaaS, SaaS
 
 
 class UFaaS(UssoClient):
+    """Synchronous UFaaS main client."""
+
     def __init__(
         self,
         *,
@@ -20,6 +22,16 @@ class UFaaS(UssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoClient | None = None,
     ) -> None:
+        """Initialize the UFaaS client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO client to reuse
+        """
         if usso_base_url is None:
             # calculate sso_url using ufiles_url
             # for example: media.pixiee.io/v1/f -> sso.pixiee.io
@@ -55,11 +67,17 @@ class UFaaS(UssoClient):
         self.initiate_apps()
 
     def initiate_apps(self) -> None:
+        """Initialize application instances.
+
+        Creates SaaS and Basket application clients.
+        """
         self.saas = SaaS(client=self)
         self.basket = Basket(client=self)
 
 
 class AsyncUFaaS(AsyncUssoClient):
+    """Asynchronous UFaaS main client."""
+
     def __init__(
         self,
         *,
@@ -70,6 +88,16 @@ class AsyncUFaaS(AsyncUssoClient):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoClient | None = None,
     ) -> None:
+        """Initialize the AsyncUFaaS client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO client to reuse
+        """
         if usso_base_url is None:
             # calculate sso_url using ufiles_url
             # for example: media.pixiee.io/v1/f -> sso.pixiee.io
@@ -104,5 +132,9 @@ class AsyncUFaaS(AsyncUssoClient):
         self.initiate_apps()
 
     def initiate_apps(self) -> None:
+        """Initialize application instances.
+
+        Creates SaaS and Basket application clients.
+        """
         self.saas = AsyncSaaS(client=self)
         self.basket = AsyncBasket(client=self)

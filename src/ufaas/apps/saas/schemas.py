@@ -12,6 +12,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class Bundle(BaseModel):
+    """Schema for SaaS bundle configuration."""
+
     asset: str
     quota: Decimal
     unit: str | None = None
@@ -24,6 +26,8 @@ class Bundle(BaseModel):
 
 
 class AcquisitionType(StrEnum):
+    """Enumeration for enrollment acquisition types."""
+
     trial = "trial"
     # credit = "credit"
     purchased = "purchased"
@@ -38,6 +42,8 @@ class AcquisitionType(StrEnum):
 
 
 class EnrollmentCreateSchema(BaseModel):
+    """Schema for creating new enrollments."""
+
     user_id: uuid.UUID
     bundles: list[Bundle]
 
@@ -56,11 +62,15 @@ class EnrollmentCreateSchema(BaseModel):
 
 
 class EnrollmentSchema(EnrollmentCreateSchema, TenantScopedEntitySchema):
+    """Complete enrollment schema with tenant scope."""
+
     paid_at: datetime | None = None
     leftover_bundles: list[Bundle] = []
 
 
 class QuotaSchema(BaseModel):
+    """Schema for quota information."""
+
     asset: str
     quota: Decimal
     unit: str | None = None
@@ -71,6 +81,8 @@ class QuotaSchema(BaseModel):
 
 
 class UsageCreateSchema(BaseModel):
+    """Schema for creating usage records."""
+
     user_id: uuid.UUID
     enrollment_id: uuid.UUID | None = None
     asset: str
@@ -80,12 +92,16 @@ class UsageCreateSchema(BaseModel):
 
 
 class UsageConsumption(BaseModel):
+    """Schema for usage consumption details."""
+
     enrollment_id: uuid.UUID
     amount: Decimal
     leftover_bundles: list[Bundle] = []
 
 
 class UsageSchema(TenantScopedEntitySchema):
+    """Complete usage schema with tenant scope and consumption details."""
+
     # enrollment_id: uuid.UUID
     # asset: str
     # amount: Decimal

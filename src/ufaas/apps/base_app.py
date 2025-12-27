@@ -306,6 +306,16 @@ class AsyncResource(AsyncUssoClient):
     async def list_items(
         self, offset: int = 0, limit: int = 10, **kwargs: object
     ) -> object:
+        """List items with pagination asynchronously.
+
+        Args:
+            offset: Number of items to skip
+            limit: Maximum number of items to return
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            List of items in the configured schema format
+        """
         kwparams = kwargs.pop("params", {})
         resp = await self.get(
             self.resource_url,

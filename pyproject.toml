@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ufaas"
-version = "0.3.11"
+version = "0.3.12"
 description = "A client for UFaaS."
 readme = "README.md"
 requires-python = ">=3.9"
