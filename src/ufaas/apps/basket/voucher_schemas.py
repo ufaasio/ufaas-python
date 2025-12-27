@@ -14,6 +14,14 @@ from ufaas.schemas import Currency
 
 
 def generate_human_readable_code(length: int = 6) -> str:
+    """Generate a human-readable voucher code.
+
+    Args:
+        length: Length of the code to generate
+
+    Returns:
+        Human-readable voucher code string
+    """
     human_readable_chars = list(
         set(string.ascii_letters + string.digits) - set("oO0Il1")
     )
@@ -22,6 +30,8 @@ def generate_human_readable_code(length: int = 6) -> str:
 
 
 class VoucherStatus(StrEnum):
+    """Enumeration for voucher status values."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     EXPIRED = "expired"
@@ -29,6 +39,8 @@ class VoucherStatus(StrEnum):
 
 
 class VoucherCreateSchema(BaseModel):
+    """Schema for creating new vouchers."""
+
     code: str = Field(default_factory=lambda: generate_human_readable_code(10))
     status: VoucherStatus = VoucherStatus.ACTIVE
     rate: Decimal = Field(
@@ -48,6 +60,14 @@ class VoucherCreateSchema(BaseModel):
     meta_data: dict | None = None
 
     def calculate_discount(self, amount: Decimal) -> Decimal:
+        """Calculate discount amount based on rate and cap.
+
+        Args:
+            amount: Original amount to apply discount to
+
+        Returns:
+            Discount amount to apply
+        """
         discount_value = amount * self.rate / 100
         discount_value = (
             discount_value
@@ -58,10 +78,14 @@ class VoucherCreateSchema(BaseModel):
 
 
 class VoucherUpdateSchema(BaseModel):
+    """Schema for updating existing vouchers."""
+
     status: VoucherStatus | None = None
     expired_at: datetime | None = None
     limit: int | None = None
 
 
 class VoucherSchema(VoucherCreateSchema, TenantScopedEntitySchema):
+    """Complete voucher schema with tenant scope and redemption tracking."""
+
     redeemed: int

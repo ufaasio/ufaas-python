@@ -10,6 +10,8 @@ from .voucher_schemas import VoucherSchema
 
 
 class Basket(App):
+    """Synchronous basket application client."""
+
     def __init__(
         self,
         *,
@@ -20,6 +22,16 @@ class Basket(App):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoSession | None = None,
     ) -> None:
+        """Initialize the Basket client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="basket",
             ufaas_base_url=ufaas_base_url,
@@ -36,6 +48,8 @@ class Basket(App):
 
 
 class AsyncBasket(AsyncApp):
+    """Asynchronous basket application client."""
+
     def __init__(
         self,
         *,
@@ -46,6 +60,16 @@ class AsyncBasket(AsyncApp):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoSession | None = None,
     ) -> None:
+        """Initialize the AsyncBasket client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="basket",
             ufaas_base_url=ufaas_base_url,
@@ -61,6 +85,8 @@ class AsyncBasket(AsyncApp):
 
 
 class BasketData(Resource):
+    """Synchronous basket data resource client."""
+
     def __init__(
         self,
         *,
@@ -71,6 +97,16 @@ class BasketData(Resource):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoSession | None = None,
     ) -> None:
+        """Initialize the BasketData resource client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="basket",
             resource_name="baskets",
@@ -85,6 +121,8 @@ class BasketData(Resource):
 
 
 class AsyncBasketData(AsyncResource):
+    """Asynchronous basket data resource client."""
+
     def __init__(
         self,
         *,
@@ -95,6 +133,16 @@ class AsyncBasketData(AsyncResource):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoSession | None = None,
     ) -> None:
+        """Initialize the AsyncBasketData resource client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="basket",
             resource_name="baskets",

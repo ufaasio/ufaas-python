@@ -16,6 +16,8 @@ from ufaas.schemas import Currency
 
 
 class DiscountSchema(BaseModel):
+    """Schema for discount information."""
+
     code: str
     user_id: uuid.UUID
     discount: Decimal = Field(
@@ -28,20 +30,34 @@ class DiscountSchema(BaseModel):
 
 
 class ItemType(StrEnum):
+    """Enumeration for basket item types."""
+
     saas_package = "saas_package"
     retail_product = "retail_product"
 
 
 class BasketItemCreateSchema(BaseModel):
+    """Schema for creating basket items."""
+
     product_url: str
     currency: Currency = Currency.IRR
     quantity: Decimal = Decimal(1)
     # extra_data: dict | None = None
 
     def from_allowed_domain(self) -> bool:
+        """Check if the item is from an allowed domain.
+
+        Returns:
+            Always returns True
+        """
         return True
 
     async def get_basket_item(self) -> "BasketItemSchema":
+        """Fetch basket item data from product URL.
+
+        Returns:
+            BasketItemSchema instance with fetched data
+        """
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 self.product_url, headers={"Accept-Encoding": "identity"}
@@ -53,6 +69,8 @@ class BasketItemCreateSchema(BaseModel):
 
 
 class BasketItemSchema(BasketItemCreateSchema):
+    """Schema for basket items with additional fields."""
+
     uid: uuid.UUID = Field(default_factory=uuid.uuid4)
     name: str
     description: str | None = None
@@ -83,12 +101,28 @@ class BasketItemSchema(BasketItemCreateSchema):
 
     @property
     def price(self) -> Decimal:
+        """Calculate the final price after discount.
+
+        Returns:
+            Final price after applying discount
+        """
         price = self.unit_price * self.quantity
         if self.discount:
             price -= self.discount.discount
         return price
 
     def exchange_fee(self, currency: Currency) -> int:
+        """Calculate exchange fee for currency conversion.
+
+        Args:
+            currency: Target currency
+
+        Returns:
+            Exchange fee amount
+
+        Raises:
+            NotImplementedError: When currency exchange is not supported
+        """
         if self.currency != currency:
             # TODO: Implement currency exchange
             raise NotImplementedError("Currency exchange not implemented")
@@ -103,6 +137,14 @@ class BasketItemSchema(BasketItemCreateSchema):
         return decimal_amount(value)
 
     async def validate_product(self) -> bool:
+        """Validate product information and stock availability.
+
+        Returns:
+            True if product is valid and available, False otherwise
+
+        Raises:
+            ValueError: When validation URL is not set
+        """
         if self.validation_url is None:
             raise ValueError("Validation URL is not set")
 
@@ -120,6 +162,11 @@ class BasketItemSchema(BasketItemCreateSchema):
         return validation_data.get("stock_quantity") >= self.quantity
 
     async def reserve_product(self) -> dict | None:
+        """Reserve the product if reserve URL is available.
+
+        Returns:
+            Reservation response data or None if no reserve URL
+        """
         if self.reserve_url is None:
             return
 
@@ -131,6 +178,11 @@ class BasketItemSchema(BasketItemCreateSchema):
             return response.json()
 
     async def webhook_product(self) -> dict | None:
+        """Send webhook notification for the product.
+
+        Returns:
+            Webhook response data or None if no webhook URL
+        """
         if self.webhook_url is None:
             return
 
@@ -143,10 +195,14 @@ class BasketItemSchema(BasketItemCreateSchema):
 
 
 class BasketItemChangeSchema(BaseModel):
+    """Schema for changing basket item quantities."""
+
     quantity_change: Decimal = Decimal(1)
 
 
 class BasketStatusEnum(StrEnum):
+    """Enumeration for basket status values."""
+
     active = "active"
     locked = "locked"
     reserved = "reserved"
@@ -156,6 +212,8 @@ class BasketStatusEnum(StrEnum):
 
 
 class BasketDataSchema(TenantScopedEntitySchema):
+    """Schema for basket data with tenant scope."""
+
     status: BasketStatusEnum = Field(
         default=BasketStatusEnum.active, description="Status of the basket"
     )
@@ -171,10 +229,17 @@ class BasketDataSchema(TenantScopedEntitySchema):
 
     @property
     def is_modifiable(self) -> bool:
+        """Check if basket can be modified.
+
+        Returns:
+            True if basket is active and modifiable
+        """
         return self.status == "active"
 
 
 class BasketDetailSchema(BasketDataSchema):
+    """Schema for detailed basket information including items."""
+
     items: list[BasketItemSchema] = Field(default_factory=list)
     subtotal: Decimal = Field(description="Total amount of the basket")
     amount: Decimal = Field(
@@ -199,15 +264,21 @@ class BasketDetailSchema(BasketDataSchema):
 
 
 class BasketCreateSchema(BaseModel):
+    """Schema for creating new baskets."""
+
     callback_url: str | None = None
     meta_data: dict[str, Any] | None = None
 
 
 class VoucherSchema(BaseModel):
+    """Schema for voucher information."""
+
     code: str
 
 
 class BasketUpdateSchema(BaseModel):
+    """Schema for updating basket information."""
+
     status: (
         Literal["active", "inactive", "paid", "reserve", "cancel"] | None
     ) = None

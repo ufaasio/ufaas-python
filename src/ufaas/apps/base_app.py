@@ -164,6 +164,16 @@ class Resource(UssoClient):
     def list_items(
         self, offset: int = 0, limit: int = 10, **kwargs: object
     ) -> object:
+        """List items with pagination.
+
+        Args:
+            offset: Number of items to skip
+            limit: Maximum number of items to return
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            List of items in the configured schema format
+        """
         kwparams = kwargs.pop("params", {})
 
         resp = self.get(
@@ -175,21 +185,58 @@ class Resource(UssoClient):
         return self.list_response_schema(**resp.json())
 
     def retrieve_item(self, uid: str, **kwargs: object) -> object:
+        """Retrieve a single item by UID.
+
+        Args:
+            uid: Unique identifier of the item
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Item in the configured schema format
+        """
         resp = self.get(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.retrieve_response_schema(**resp.json())
 
     def create_item(self, obj: dict, **kwargs: object) -> object:
+        """Create a new item.
+
+        Args:
+            obj: Item data to create
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Created item in the configured schema format
+        """
         resp = self.post(self.resource_url, json=obj, **kwargs)
         resp.raise_for_status()
         return self.create_response_schema(**resp.json())
 
     def update_item(self, uid: str, obj: dict, **kwargs: object) -> object:
+        """Update an existing item.
+
+        Args:
+            uid: Unique identifier of the item
+            obj: Updated item data
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Updated item in the configured schema format
+        """
         resp = self.patch(f"{self.resource_url}/{uid}", json=obj, **kwargs)
         resp.raise_for_status()
         return self.update_response_schema(**resp.json())
 
     def delete_item(self, uid: str, **kwargs: object) -> object:
+        """Delete an item.
+
+        Args:
+            uid: Unique identifier of the item
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Deleted item in the configured schema format
+        """
         resp = self.delete(f"{self.resource_url}/{uid}", **kwargs)
         resp.raise_for_status()
         return self.delete_response_schema(**resp.json())
