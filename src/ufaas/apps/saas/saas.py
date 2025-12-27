@@ -10,6 +10,8 @@ from .schemas import EnrollmentSchema, QuotaSchema, UsageSchema
 
 
 class SaaS(App):
+    """Synchronous SaaS application client."""
+
     def __init__(
         self,
         *,
@@ -20,6 +22,16 @@ class SaaS(App):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: UssoSession | None = None,
     ) -> None:
+        """Initialize SaaS client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="saas",
             ufaas_base_url=ufaas_base_url,
@@ -36,6 +48,8 @@ class SaaS(App):
 
 
 class AsyncSaaS(AsyncApp):
+    """Asynchronous SaaS application client."""
+
     def __init__(
         self,
         *,
@@ -46,6 +60,16 @@ class AsyncSaaS(AsyncApp):
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         client: AsyncUssoSession | None = None,
     ) -> None:
+        """Initialize AsyncSaaS client.
+
+        Args:
+            ufaas_base_url: Base URL for UFaaS API
+            usso_base_url: Base URL for USSO service
+            api_key: API key for authentication
+            usso_refresh_url: URL for token refresh
+            refresh_token: Refresh token for authentication
+            client: Existing USSO session to reuse
+        """
         super().__init__(
             app_name="saas",
             ufaas_base_url=ufaas_base_url,
