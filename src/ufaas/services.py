@@ -21,12 +21,21 @@ from .wallet import WalletDetailSchema
 class AccountingClient(httpx.AsyncClient):
     """Async client for accounting service operations."""
 
-    def __init__(self, tenant_id: str) -> None:
+    def __init__(
+        self,
+        tenant_id: str,
+        *,
+        agent_id: str | None = None,
+        agent_private_key: str | None = None,
+    ) -> None:
         """
         Initialize AccountingClient.
 
         Args:
             tenant_id: Tenant identifier for authentication
+            agent_id: Agent ID. Defaults to AGENT_ID env var.
+            agent_private_key: Private key for signing.
+                Defaults to AGENT_PRIVATE_KEY env var.
         """
         accounting_service_url = os.getenv(
             "ACCOUNTING_SERVICE_URL", "https://wallets.uln.me"
@@ -34,7 +43,14 @@ class AccountingClient(httpx.AsyncClient):
         super().__init__(
             base_url=f"{accounting_service_url}/api/accounting/v1"
         )
+
+        self.agent_id = agent_id or os.getenv("AGENT_ID") or ""
+        self.agent_private_key = (
+            agent_private_key or os.getenv("AGENT_PRIVATE_KEY") or ""
+        )
         self.tenant_id = tenant_id
+        if not self.agent_id or not self.agent_private_key:
+            raise ValueError("agent_id and agent_private_key are required")
 
     async def get_token(self, scopes: str | list[str]) -> str:
         """
@@ -53,6 +69,8 @@ class AccountingClient(httpx.AsyncClient):
             scopes=scopes,
             aud="accounting",
             tenant_id=self.tenant_id,
+            agent_id=self.agent_id,
+            private_key=self.agent_private_key,
         )
         token = await agent.get_agent_token_async(jwt)
         self.headers["Authorization"] = f"Bearer {token}"

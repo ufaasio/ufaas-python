@@ -1,1 +1,0 @@
-"""UFaaS applications module."""
