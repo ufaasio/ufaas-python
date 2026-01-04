@@ -23,7 +23,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ["pydantic>=2", "usso>=0.29.9"]
+dependencies = ["pydantic>=2", "usso>=0.29.14"]
 
 [project.optional-dependencies]
 fastapi-mongo-base = ["fastapi-mongo-base>=1.0.45"]
@@ -76,7 +76,7 @@ select = [
 ignore = ["TRY003", "COM812", "B008", "D202", "D203", "D209", "D212", "D413"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["G004","S101"]
+"tests/*" = ["G004", "S101", "D"]
 
 [tool.ruff.format]
 quote-style = "double"
