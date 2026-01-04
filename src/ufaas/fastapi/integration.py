@@ -3,12 +3,10 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
-from ..exceptions import UFaaSException
+from ..exceptions import UFaaSError
 
 
-def ufaas_exception_handler(
-    request: Request, exc: UFaaSException
-) -> JSONResponse:
+def ufaas_exception_handler(request: Request, exc: UFaaSError) -> JSONResponse:
     """
     Handle UFaaS exceptions in FastAPI.
 
@@ -25,4 +23,4 @@ def ufaas_exception_handler(
     )
 
 
-EXCEPTION_HANDLERS = {UFaaSException: ufaas_exception_handler}
+EXCEPTION_HANDLERS = {UFaaSError: ufaas_exception_handler}

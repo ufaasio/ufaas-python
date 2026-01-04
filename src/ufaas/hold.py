@@ -4,10 +4,10 @@ from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from fastapi_mongo_base.schemas import TenantUserEntitySchema
 from fastapi_mongo_base.utils import bsontools, timezone
 from pydantic import BaseModel, field_validator
 
+from ._schemas import TenantUserEntitySchema
 from .enums import Currency
 
 

@@ -23,7 +23,10 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ["pydantic>=2", "usso>=0.29.7", "fastapi-mongo-base>=1.0.45"]
+dependencies = ["pydantic>=2", "usso>=0.29.8"]
+
+[project.optional-dependencies]
+fastapi-mongo-base = ["fastapi-mongo-base>=1.0.45"]
 
 [project.urls]
 "Homepage" = "https://github.com/ufilesorg/ufiles-python"

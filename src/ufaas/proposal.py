@@ -3,10 +3,11 @@
 from decimal import Decimal
 from enum import StrEnum
 
-from fastapi_mongo_base.schemas import TenantUserEntitySchema
 from fastapi_mongo_base.tasks import TaskMixin
 from fastapi_mongo_base.utils import bsontools
 from pydantic import BaseModel, field_validator
+
+from ._schemas import TenantUserEntitySchema
 
 
 class ProposalStatus(StrEnum):

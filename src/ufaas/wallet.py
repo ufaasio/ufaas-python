@@ -3,9 +3,9 @@
 from decimal import Decimal
 from enum import StrEnum
 
-from fastapi_mongo_base.schemas import TenantUserEntitySchema
 from pydantic import BaseModel, Field, model_validator
 
+from ._schemas import TenantUserEntitySchema
 from .enums import Currency
 
 
