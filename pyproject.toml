@@ -23,7 +23,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = ["pydantic>=2", "usso>=0.29.8"]
+dependencies = ["pydantic>=2", "usso>=0.29.9"]
 
 [project.optional-dependencies]
 fastapi-mongo-base = ["fastapi-mongo-base>=1.0.45"]
