@@ -16,7 +16,9 @@ def _get_usso_url(ufaas_base_url: str) -> str:
     # for example: storage.pixy.ir/api/v1/f -> https://sso.pixy.ir
 
     if not ufaas_base_url:
-        raise ValueError("BASE_URLs (UFAAS_URL and USSO_URL) are required")
+        raise ValueError(
+            "BASE_URLs (UFAAS_BASE_URL and USSO_BASE_URL) are required"
+        )
 
     parsed_url = urlparse(ufaas_base_url)
     netloc = parsed_url.netloc
@@ -35,8 +37,8 @@ class UFaaS(UssoClient):
     def __init__(
         self,
         *,
-        ufaas_base_url: str = os.getenv("UFAAS_URL"),
-        usso_base_url: str | None = os.getenv("USSO_URL"),
+        ufaas_base_url: str = os.getenv("UFAAS_BASE_URL"),
+        usso_base_url: str | None = os.getenv("USSO_BASE_URL"),
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         agent_id: str | None = os.getenv("AGENT_ID"),
@@ -72,10 +74,10 @@ class UFaaS(UssoClient):
         ufaas_base_url = (
             ufaas_base_url
             or getattr(self, "ufaas_base_url", None)
-            or os.getenv("UFAAS_URL")
+            or os.getenv("UFAAS_BASE_URL")
         ).rstrip("/")
         if not ufaas_base_url:
-            raise ValueError("UFAAS_URL is required")
+            raise ValueError("UFAAS_BASE_URL is required")
         self.ufaas_base_url = ufaas_base_url
         # self.headers.update({"accept-encoding": "identity"})
 
@@ -86,8 +88,8 @@ class AsyncUFaaS(AsyncUssoClient):
     def __init__(
         self,
         *,
-        ufaas_base_url: str = os.getenv("UFAAS_URL"),
-        usso_base_url: str | None = os.getenv("USSO_URL"),
+        ufaas_base_url: str = os.getenv("UFAAS_BASE_URL"),
+        usso_base_url: str | None = os.getenv("USSO_BASE_URL"),
         api_key: str | None = os.getenv("UFAAS_API_KEY"),
         refresh_token: str | None = os.getenv("USSO_REFRESH_TOKEN"),
         agent_id: str | None = os.getenv("AGENT_ID"),
@@ -123,9 +125,9 @@ class AsyncUFaaS(AsyncUssoClient):
         ufaas_base_url = (
             ufaas_base_url
             or getattr(self, "ufaas_base_url", None)
-            or os.getenv("UFAAS_URL")
+            or os.getenv("UFAAS_BASE_URL")
         ).rstrip("/")
         if not ufaas_base_url:
-            raise ValueError("UFAAS_URL is required")
+            raise ValueError("UFAAS_BASE_URL is required")
         self.ufaas_base_url = ufaas_base_url
         # self.headers.update({"accept-encoding": "identity"})
