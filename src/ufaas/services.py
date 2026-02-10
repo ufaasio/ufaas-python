@@ -223,6 +223,8 @@ class AccountingClient(httpx.AsyncClient):
         description: str | None = None,
         note: str | None = None,
         hold_id: str | None = None,
+        from_label: str | None = None,
+        to_label: str | None = None,
     ) -> ProposalSchema:
         """
         Create a transfer proposal.
@@ -235,6 +237,8 @@ class AccountingClient(httpx.AsyncClient):
             description: Optional description
             note: Optional note
             hold_id: Optional hold ID to use
+            from_label: Optional label for source wallet
+            to_label: Optional label for destination wallet
 
         Returns:
             Created proposal schema
@@ -248,8 +252,13 @@ class AccountingClient(httpx.AsyncClient):
                         wallet_id=from_wallet_id,
                         amount=-amount,
                         hold_id=hold_id,
+                        label=from_label,
                     ),
-                    Participant(wallet_id=to_wallet_id, amount=amount),
+                    Participant(
+                        wallet_id=to_wallet_id,
+                        amount=amount,
+                        label=to_label,
+                    ),
                 ],
                 amount=amount,
                 currency=currency,
@@ -270,6 +279,8 @@ class AccountingClient(httpx.AsyncClient):
         description: str | None = None,
         note: str | None = None,
         hold_id: str | None = None,
+        from_label: str | None = None,
+        to_labels: list[str] | None = None,
     ) -> ProposalSchema:
         """
         Create a transfer proposal.
@@ -282,6 +293,8 @@ class AccountingClient(httpx.AsyncClient):
             description: Optional description
             note: Optional note
             hold_id: Optional hold ID to use
+            from_label: Optional label for source wallet
+            to_labels: Optional labels for destination wallets
 
         Returns:
             Created proposal schema
@@ -296,9 +309,18 @@ class AccountingClient(httpx.AsyncClient):
                         wallet_id=from_wallet_id,
                         amount=-total_amount,
                         hold_id=hold_id,
+                        label=from_label,
                     ),
                     *[
-                        Participant(wallet_id=to_wallet_id, amount=amounts[i])
+                        Participant(
+                            wallet_id=to_wallet_id,
+                            amount=amounts[i],
+                            label=(
+                                to_labels[i]
+                                if to_labels and i < len(to_labels)
+                                else None
+                            ),
+                        )
                         for i, to_wallet_id in enumerate(to_wallet_ids)
                     ],
                 ],

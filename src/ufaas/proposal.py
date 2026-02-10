@@ -27,6 +27,7 @@ class Participant(BaseModel):
     wallet_id: str
     amount: Decimal
     hold_id: str | None = None
+    label: str | None = None
 
     @field_validator("amount", mode="before")
     @classmethod
