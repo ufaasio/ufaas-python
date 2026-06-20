@@ -5,7 +5,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field, model_validator
 
-from ._schemas import TenantUserEntitySchema
+from ._schemas import TenantOwnedEntitySchema
 from .enums import Currency
 
 
@@ -51,7 +51,7 @@ class WalletStatus(StrEnum):
     deleted = "deleted"
 
 
-class WalletSchema(TenantUserEntitySchema):
+class WalletSchema(TenantOwnedEntitySchema):
     """Wallet schema."""
 
     wallet_purpose: WalletPurpose = WalletPurpose.regular

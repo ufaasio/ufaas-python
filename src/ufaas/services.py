@@ -80,7 +80,7 @@ class AccountingClient(httpx.AsyncClient):
         self,
         wallet_id: str | None = None,
         *,
-        user_id: str | None = None,
+        owner_id: str | None = None,
         **kwargs: object,
     ) -> WalletDetailSchema:
         """
@@ -88,7 +88,7 @@ class AccountingClient(httpx.AsyncClient):
 
         Args:
             wallet_id: Specific wallet ID (optional)
-            user_id: User ID filter (optional)
+            owner_id: Owner ID filter (optional)
             **kwargs: Additional keyword arguments
 
         Returns:
@@ -100,7 +100,7 @@ class AccountingClient(httpx.AsyncClient):
         await self.get_token("read:finance/accounting/wallet")
 
         params = kwargs.pop("params", {}) or {}
-        params.update({"user_id": user_id})
+        params.update({"owner_id": owner_id})
         response = await self.get(
             f"/wallets/{wallet_id}" if wallet_id else "/wallets",
             params=params,

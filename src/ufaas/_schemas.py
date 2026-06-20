@@ -9,6 +9,7 @@ try:
     from fastapi_mongo_base.schemas import (
         BaseEntitySchema,
         PaginatedResponse,
+        TenantOwnedEntitySchema,
         TenantScopedEntitySchema,
         TenantUserEntitySchema,
         UserOwnedEntitySchema,
@@ -17,6 +18,7 @@ try:
     __all__ = [
         "BaseEntitySchema",
         "PaginatedResponse",
+        "TenantOwnedEntitySchema",
         "TenantScopedEntitySchema",
         "TenantUserEntitySchema",
         "UserOwnedEntitySchema",
@@ -62,6 +64,11 @@ except ImportError:
 
         user_id: str
 
+    class OwnedEntitySchema(BaseEntitySchema):
+        """Schema for entities owned by an entity."""
+
+        owner_id: str
+
     class TenantScopedEntitySchema(BaseEntitySchema):
         """Schema for entities scoped to a tenant."""
 
@@ -71,6 +78,9 @@ except ImportError:
         TenantScopedEntitySchema, UserOwnedEntitySchema
     ):
         """Schema for entities scoped to both tenant and user."""
+
+    class TenantOwnedEntitySchema(TenantScopedEntitySchema, OwnedEntitySchema):
+        """Schema for entities scoped to both tenant and owned by an entity."""
 
     class PaginatedResponse[TSCHEMA: BaseModel](BaseModel):
         """Generic paginated response model for list endpoints."""
