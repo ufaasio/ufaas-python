@@ -6,39 +6,49 @@ error_messages: dict[str, str] = {}
 class UFaaSError(Exception):
     """UFaaSError is a base exception for all UFaaS exceptions."""
 
+    status_code: int = 402
+    error_code: str = "insufficient_funds"
+    message_en: str = "Insufficient funds"
+    message_fa: str | None = "موجودی کافی نیست"
+
     def __init__(
         self,
         status_code: int,
-        error: str,
+        error_code: str,
         detail: str | None = None,
         message: dict | None = None,
-        **kwargs: dict,
+        **kwargs: object,
     ) -> None:
         """
-        Initialize UFaaS error.
+        Initialize base HTTP exception.
 
         Args:
-            status_code: HTTP status code
-            error: Error code string
-            detail: Optional detail message
-            message: Optional message dictionary
-            **kwargs: Additional keyword arguments
+            status_code: HTTP status code.
+            error_code: Error code string.
+            detail: Optional error detail message.
+            message: Optional dictionary of language-specific messages.
+            **kwargs: Additional error data.
+
         """
         self.status_code = status_code
-        self.error = error
-        msg: dict = {}
+        self.error_code = error_code
         if message is None:
-            if detail:
-                msg["en"] = detail
+            if self.message_en and self.message_fa:
+                self.message = {
+                    "en": self.message_en,
+                    "fa": self.message_fa,
+                }
             else:
-                msg["en"] = error_messages.get(error, error)
+                self.message = {
+                    "en": detail,
+                }
         else:
-            msg = message
-
-        self.message = msg
-        self.detail = detail or str(self.message)
+            if isinstance(message, str):
+                message = {"en": message}
+            self.message = message
+        self.detail = detail or str(self.message.get("en"))
         self.data = kwargs
-        super().__init__(detail)
+        super().__init__(status_code, detail=detail)
 
 
 class InsufficientFundsError(UFaaSError):
@@ -52,7 +62,7 @@ class InsufficientFundsError(UFaaSError):
             detail: Optional detail message
         """
         super().__init__(
-            status_code=402, error="insufficient_funds", detail=detail
+            status_code=402, error_code="insufficient_funds", detail=detail
         )
 
 
@@ -67,7 +77,7 @@ class InvalidRequestError(UFaaSError):
             detail: Optional detail message
         """
         super().__init__(
-            status_code=400, error="invalid_request", detail=detail
+            status_code=400, error_code="invalid_request", detail=detail
         )
 
 
@@ -81,7 +91,9 @@ class UnauthorizedError(UFaaSError):
         Args:
             detail: Optional detail message
         """
-        super().__init__(status_code=401, error="unauthorized", detail=detail)
+        super().__init__(
+            status_code=401, error_code="unauthorized", detail=detail
+        )
 
 
 class ForbiddenError(UFaaSError):
@@ -94,7 +106,9 @@ class ForbiddenError(UFaaSError):
         Args:
             detail: Optional detail message
         """
-        super().__init__(status_code=403, error="forbidden", detail=detail)
+        super().__init__(
+            status_code=403, error_code="forbidden", detail=detail
+        )
 
 
 class NotFoundError(UFaaSError):
@@ -107,4 +121,6 @@ class NotFoundError(UFaaSError):
         Args:
             detail: Optional detail message
         """
-        super().__init__(status_code=404, error="not_found", detail=detail)
+        super().__init__(
+            status_code=404, error_code="not_found", detail=detail
+        )
