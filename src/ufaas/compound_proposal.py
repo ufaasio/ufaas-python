@@ -3,7 +3,7 @@
 from decimal import Decimal
 from enum import StrEnum
 
-from fastapi_mongo_base.schemas import TenantOwnedEntitySchema
+from fastapi_mongo_base.schemas import TenantUserEntitySchema
 from fastapi_mongo_base.tasks import TaskMixin
 from fastapi_mongo_base.utils import bsontools
 from pydantic import BaseModel, field_validator
@@ -40,7 +40,7 @@ class CompoundProposalLeg(BaseModel):
         return bsontools.decimal_amount(value)
 
 
-class CompoundProposalSchema(TenantOwnedEntitySchema, TaskMixin):
+class CompoundProposalSchema(TenantUserEntitySchema, TaskMixin):
     """Full schema for a compound proposal stored in MongoDB."""
 
     issuer_id: str
