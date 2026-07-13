@@ -7,7 +7,7 @@ from fastapi_mongo_base.tasks import TaskMixin
 from fastapi_mongo_base.utils import bsontools
 from pydantic import BaseModel, field_validator
 
-from ._schemas import TenantOwnedEntitySchema
+from ._schemas import TenantUserEntitySchema
 
 
 class ProposalStatus(StrEnum):
@@ -44,7 +44,7 @@ class Participant(BaseModel):
         return bsontools.decimal_amount(value)
 
 
-class ProposalSchema(TenantOwnedEntitySchema, TaskMixin):
+class ProposalSchema(TenantUserEntitySchema, TaskMixin):
     """Schema for proposal information with tenant and user scope."""
 
     issuer_id: str
@@ -85,7 +85,6 @@ class ProposalCreateSchema(BaseModel):
 class ProposalUpdateSchema(BaseModel):
     """Schema for updating proposals."""
 
-    # status: str | None
     status: ProposalStatus | None = None
     description: str | None = None
     note: str | None = None

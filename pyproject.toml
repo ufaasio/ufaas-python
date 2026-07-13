@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ufaas"
-version = "0.5.2"
+version = "0.5.3"
 description = "A client for UFaaS."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -70,7 +70,7 @@ select = [
   "ISC",   # implicit string concatenation
   "G",     # misuse of logging string interpolation
   "D",     # docstrings: docstring checking
-  # "ERA", # remove commented code
+  "ERA", # remove commented code
   "RUF", # ruff-specific improvements
 ]
 ignore = ["TRY003", "COM812", "B008", "D202", "D203", "D209", "D212", "D413"]

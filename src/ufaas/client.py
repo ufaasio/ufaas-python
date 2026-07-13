@@ -79,7 +79,6 @@ class UFaaS(UssoClient):
         if not ufaas_base_url:
             raise ValueError("UFAAS_BASE_URL is required")
         self.ufaas_base_url = ufaas_base_url
-        # self.headers.update({"accept-encoding": "identity"})
 
 
 class AsyncUFaaS(AsyncUssoClient):
@@ -130,4 +129,3 @@ class AsyncUFaaS(AsyncUssoClient):
         if not ufaas_base_url:
             raise ValueError("UFAAS_BASE_URL is required")
         self.ufaas_base_url = ufaas_base_url
-        # self.headers.update({"accept-encoding": "identity"})

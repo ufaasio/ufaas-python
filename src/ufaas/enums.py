@@ -21,7 +21,7 @@ class Currency(StrEnum):
     # ETH = "ETH"
 
     @classmethod
-    def main_currency(cls) -> "Currency":
+    def main_currency(cls) -> Self:
         """
         Get the main currency.
 
@@ -32,7 +32,7 @@ class Currency(StrEnum):
 
     @property
     def properties(self) -> dict:
-        """Get the currency properties."""
+        """Currency properties."""
         return {
             Currency.IRR: {
                 "name": {
@@ -72,7 +72,7 @@ class Currency(StrEnum):
     @property
     def currency(self) -> Self:
         """
-        Get the currency instance.
+        Currency instance.
 
         Returns:
             Self reference
@@ -82,7 +82,7 @@ class Currency(StrEnum):
     @property
     def name(self) -> dict:
         """
-        Get the currency name dictionary.
+        Currency name dictionary.
 
         Returns:
             Dictionary with localized names
@@ -92,7 +92,7 @@ class Currency(StrEnum):
     @property
     def symbol(self) -> str:
         """
-        Get the currency symbol.
+        Currency symbol.
 
         Returns:
             Currency symbol string
@@ -102,7 +102,7 @@ class Currency(StrEnum):
     @property
     def precision(self) -> int:
         """
-        Get the currency precision.
+        Currency precision.
 
         Returns:
             Number of decimal places
@@ -112,7 +112,7 @@ class Currency(StrEnum):
     @property
     def icon(self) -> str:
         """
-        Get the currency icon URL.
+        Currency icon URL.
 
         Returns:
             Icon URL string
@@ -132,7 +132,7 @@ class Currency(StrEnum):
     @property
     def color(self) -> str:
         """
-        Get the currency color.
+        Currency color.
 
         Returns:
             Color hex code string
