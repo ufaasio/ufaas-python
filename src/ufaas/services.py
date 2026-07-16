@@ -110,11 +110,45 @@ class AccountingClient(httpx.AsyncClient):
         if wallet_id:
             return WalletDetailSchema.model_validate(response.json())
 
-        for item in response.json().get("items", []):
-            if item.get("is_default"):
-                return WalletDetailSchema.model_validate(item)
+        items = response.json().get("items", [])
+        if items:
+            for item in items:
+                if item.get("is_default"):
+                    return WalletDetailSchema.model_validate(item)
+            return WalletDetailSchema.model_validate(items[0])
 
         raise NotFoundError("Wallet not found")
+
+    async def get_wallets(
+        self,
+        *,
+        owner_id: str | None = None,
+        **kwargs: object,
+    ) -> list[WalletDetailSchema]:
+        """
+        Get all wallets for an owner.
+
+        Args:
+            owner_id: Owner ID filter (optional)
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            List of wallet detail schemas
+        """
+        await self.get_token("read:finance/accounting/wallet")
+
+        params = kwargs.pop("params", {}) or {}
+        params.update({"owner_id": owner_id})
+        response = await self.get(
+            "/wallets",
+            params=params,
+            **kwargs,
+        )
+        response.raise_for_status()
+        return [
+            WalletDetailSchema.model_validate(item)
+            for item in response.json().get("items", [])
+        ]
 
     async def get_holds(self, wallet_id: str) -> list[WalletHoldSchema]:
         """
