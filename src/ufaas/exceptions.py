@@ -48,7 +48,7 @@ class UFaaSError(Exception):
             self.message = message
         self.detail = detail or str(self.message.get("en"))
         self.data = kwargs
-        super().__init__(status_code, detail=detail)
+        super().__init__(status_code, detail)
 
 
 class InsufficientFundsError(UFaaSError):
