@@ -110,12 +110,9 @@ class AccountingClient(httpx.AsyncClient):
         if wallet_id:
             return WalletDetailSchema.model_validate(response.json())
 
-        items = response.json().get("items", [])
-        if items:
-            for item in items:
-                if item.get("is_default"):
-                    return WalletDetailSchema.model_validate(item)
-            return WalletDetailSchema.model_validate(items[0])
+        for item in response.json().get("items", []):
+            if item.get("is_default"):
+                return WalletDetailSchema.model_validate(item)
 
         raise NotFoundError("Wallet not found")
 
