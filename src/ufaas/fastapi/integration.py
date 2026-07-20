@@ -7,19 +7,25 @@ from ..exceptions import UFaaSError
 
 
 def ufaas_exception_handler(request: Request, exc: UFaaSError) -> JSONResponse:
-    """
-    Handle UFaaS exceptions in FastAPI.
+    if request.headers.get("accept-language"):
+        locales = request.headers.get("accept-language").split(",")
+        msg = {}
+        for locale in locales:
+            lang = locale.split("-")[0]
+            if lang in exc.message:
+                msg[lang] = exc.message.get(lang)
+        message = msg
+    else:
+        message = exc.message
 
-    Args:
-        request: FastAPI request object
-        exc: UFaaS exception to handle
-
-    Returns:
-        JSON response with error details
-    """
     return JSONResponse(
         status_code=exc.status_code,
-        content={"message": exc.message, "error": exc.error},
+        content={
+            "message": message,
+            "error_code": exc.error_code,
+            "detail": exc.detail,
+            **exc.data,
+        },
     )
 
 
