@@ -7,6 +7,8 @@ from ..exceptions import UFaaSError
 
 
 def ufaas_exception_handler(request: Request, exc: UFaaSError) -> JSONResponse:
+    """Handle UFaaS exceptions."""
+
     if request.headers.get("accept-language"):
         locales = request.headers.get("accept-language").split(",")
         msg = {}

@@ -1,6 +1,5 @@
 """UFaaS - Universal Function as a Service client library."""
 
-# from .client import AsyncUFaaS, UFaaS
 from .hold import (
     HoldStatus,
     WalletHoldCreateSchema,
