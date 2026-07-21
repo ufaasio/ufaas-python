@@ -12,7 +12,7 @@ dotenv.load_dotenv()
 def setup_debugpy() -> None:
     """Set up debugpy for remote debugging."""
     if os.getenv("DEBUGPY", "False").lower() in ("true", "1", "yes"):
-        import debugpy  # noqa: T100
+        import debugpy  # ruff:ignore[debugger]
 
-        debugpy.listen(("127.0.0.1", 3020))  # noqa: T100
-        debugpy.wait_for_client()  # noqa: T100
+        debugpy.listen(("127.0.0.1", 3020))  # ruff:ignore[debugger]
+        debugpy.wait_for_client()  # ruff:ignore[debugger]

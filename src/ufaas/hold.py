@@ -7,7 +7,7 @@ from enum import StrEnum
 from fastapi_mongo_base.utils import bsontools, timezone
 from pydantic import BaseModel, field_validator
 
-from ._schemas import TenantOwnedEntitySchema
+from ._schemas import TenantWorkspaceEntitySchema
 from .enums import Currency
 
 
@@ -21,8 +21,8 @@ class HoldStatus(StrEnum):
     FAILED = "failed"
 
 
-class WalletHoldSchema(TenantOwnedEntitySchema):
-    """Schema for wallet hold information with tenant and user scope."""
+class WalletHoldSchema(TenantWorkspaceEntitySchema):
+    """Schema for wallet hold information with tenant and workspace scope."""
 
     wallet_id: str
     currency: str

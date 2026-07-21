@@ -7,18 +7,18 @@ from typing import Self
 class Currency(StrEnum):
     """Enumeration for supported currencies."""
 
-    # none = "none"
+    # none = "none"  # ruff:ignore[commented-out-code]
 
     IRR = "IRR"
-    # IRT = "IRT"
+    # IRT = "IRT"  # ruff:ignore[commented-out-code]
 
     USD = "USD"
     EUR = "EUR"
-    # GBP = "GBP"
+    # GBP = "GBP"  # ruff:ignore[commented-out-code]
 
-    # USDT = "USDT"
-    # BTC = "BTC"
-    # ETH = "ETH"
+    # USDT = "USDT"  # ruff:ignore[commented-out-code]
+    # BTC = "BTC"  # ruff:ignore[commented-out-code]
+    # ETH = "ETH"  # ruff:ignore[commented-out-code]
 
     @classmethod
     def main_currency(cls) -> Self:

@@ -5,7 +5,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field, model_validator
 
-from ._schemas import TenantOwnedEntitySchema
+from ._schemas import TenantWorkspaceEntitySchema
 from .enums import Currency
 
 
@@ -27,11 +27,11 @@ class WalletPurpose(StrEnum):
     test = "test"
     fees = "fees"
 
-    # settlement = "settlement"
-    # fee_collector = "fee_collector"
-    # income_wallet = "income_wallet"
-    # bonus_wallet = "bonus_wallet"
-    # reserve = "reserve"
+    # settlement = "settlement"  # ruff:ignore[commented-out-code]
+    # fee_collector = "fee_collector"  # ruff:ignore[commented-out-code]
+    # income_wallet = "income_wallet"  # ruff:ignore[commented-out-code]
+    # bonus_wallet = "bonus_wallet"  # ruff:ignore[commented-out-code]
+    # reserve = "reserve"  # ruff:ignore[commented-out-code]
 
 
 class WalletBalanceType(StrEnum):
@@ -51,7 +51,7 @@ class WalletStatus(StrEnum):
     deleted = "deleted"
 
 
-class WalletSchema(TenantOwnedEntitySchema):
+class WalletSchema(TenantWorkspaceEntitySchema):
     """Wallet schema."""
 
     wallet_purpose: WalletPurpose = WalletPurpose.regular

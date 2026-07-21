@@ -12,6 +12,7 @@ try:
         TenantOwnedEntitySchema,
         TenantScopedEntitySchema,
         TenantUserEntitySchema,
+        TenantWorkspaceEntitySchema,
         UserOwnedEntitySchema,
     )
 
@@ -21,6 +22,7 @@ try:
         "TenantOwnedEntitySchema",
         "TenantScopedEntitySchema",
         "TenantUserEntitySchema",
+        "TenantWorkspaceEntitySchema",
         "UserOwnedEntitySchema",
     ]
 except ImportError:
@@ -30,10 +32,10 @@ except ImportError:
 
         uid: str
         created_at: datetime = Field(
-            default_factory=lambda: datetime.now(timezone.utc),  # noqa: UP017
+            default_factory=lambda: datetime.now(timezone.utc),  # ruff:ignore[datetime-timezone-utc]
         )
         updated_at: datetime = Field(
-            default_factory=lambda: datetime.now(timezone.utc),  # noqa: UP017
+            default_factory=lambda: datetime.now(timezone.utc),  # ruff:ignore[datetime-timezone-utc]
         )
         is_deleted: bool = False
         meta_data: dict | None = None
@@ -57,7 +59,7 @@ except ImportError:
                 True if entity is expired, False otherwise.
 
             """
-            return (datetime.now(timezone.utc) - self.updated_at).days > days  # noqa: UP017
+            return (datetime.now(timezone.utc) - self.updated_at).days > days  # ruff:ignore[datetime-timezone-utc]
 
     class UserOwnedEntitySchema(BaseEntitySchema):
         """Schema for entities owned by a user."""
@@ -81,6 +83,16 @@ except ImportError:
 
     class TenantOwnedEntitySchema(TenantScopedEntitySchema, OwnedEntitySchema):
         """Schema for entities scoped to both tenant and owned by an entity."""
+
+    class WorkspaceOwnedEntitySchema(BaseEntitySchema):
+        """Schema for entities owned by a workspace."""
+
+        workspace_id: str
+
+    class TenantWorkspaceEntitySchema(
+        TenantScopedEntitySchema, WorkspaceOwnedEntitySchema
+    ):
+        """Schema for entities scoped to tenant and owned by a workspace."""
 
     class PaginatedResponse[TSCHEMA: BaseModel](BaseModel):
         """Generic paginated response model for list endpoints."""
