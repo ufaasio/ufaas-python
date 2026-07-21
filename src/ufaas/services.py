@@ -123,14 +123,14 @@ class AccountingClient(httpx.AsyncClient):
     async def get_wallets(
         self,
         *,
-        owner_id: str | None = None,
+        workspace_id: str | None = None,
         **kwargs: object,
     ) -> list[WalletDetailSchema]:
         """
-        Get all wallets for an owner.
+        Get all wallets for a workspace.
 
         Args:
-            owner_id: Owner ID filter (optional)
+            workspace_id: Workspace ID filter (optional)
             **kwargs: Additional keyword arguments
 
         Returns:
@@ -139,7 +139,9 @@ class AccountingClient(httpx.AsyncClient):
         await self.get_token("read:finance/accounting/wallet")
 
         params = kwargs.pop("params", {}) or {}
-        params.update({"owner_id": owner_id})
+        ws_id = workspace_id
+        if ws_id is not None:
+            params.update({"workspace_id": ws_id})
         response = await self.get(
             "/wallets",
             params=params,
