@@ -6,7 +6,7 @@ from enum import StrEnum
 from fastapi_mongo_base.schemas import TenantUserEntitySchema
 from fastapi_mongo_base.tasks import TaskMixin
 from fastapi_mongo_base.utils import bsontools
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 from .proposal import Participant
 
@@ -48,6 +48,7 @@ class CompoundProposalSchema(TenantUserEntitySchema, TaskMixin):
     note: str | None = None
     status: CompoundProposalStatus = CompoundProposalStatus.init
     legs: list[CompoundProposalLeg]
+    idempotency_key: str | None = None
 
 
 class CompoundProposalCreateSchema(BaseModel):
@@ -58,6 +59,9 @@ class CompoundProposalCreateSchema(BaseModel):
     status: CompoundProposalStatus = CompoundProposalStatus.init
     legs: list[CompoundProposalLeg]
     meta_data: dict | None = None
+    idempotency_key: str | None = Field(
+        default=None, min_length=1, max_length=64
+    )
 
 
 class CompoundProposalUpdateSchema(BaseModel):

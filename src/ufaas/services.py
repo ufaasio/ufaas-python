@@ -197,7 +197,8 @@ class AccountingClient(httpx.AsyncClient):
         wallet_id: str,
         currency: str,
         amount: float,
-        expires_at: datetime,
+        expires_at: datetime | None,
+        idempotency_key: str | None = None,
     ) -> WalletHoldSchema:
         """
         Create a wallet hold.
@@ -207,6 +208,7 @@ class AccountingClient(httpx.AsyncClient):
             currency: Currency code
             amount: Amount to hold
             expires_at: Expiration datetime
+            idempotency_key: Retry-safe key; a replay returns the first hold
 
         Returns:
             Created wallet hold schema
@@ -219,6 +221,7 @@ class AccountingClient(httpx.AsyncClient):
                 amount=amount,
                 expires_at=expires_at,
                 status=HoldStatus.ACTIVE,
+                idempotency_key=idempotency_key,
             ).model_dump(mode="json"),
         )
         response.raise_for_status()
@@ -259,6 +262,7 @@ class AccountingClient(httpx.AsyncClient):
         hold_id: str | None = None,
         from_label: str | None = None,
         to_label: str | None = None,
+        idempotency_key: str | None = None,
     ) -> ProposalSchema:
         """
         Create a transfer proposal.
@@ -273,6 +277,7 @@ class AccountingClient(httpx.AsyncClient):
             hold_id: Optional hold ID to use
             from_label: Optional label for source wallet
             to_label: Optional label for destination wallet
+            idempotency_key: Retry-safe key; replays return the first one
 
         Returns:
             Created proposal schema
@@ -298,6 +303,7 @@ class AccountingClient(httpx.AsyncClient):
                 currency=currency,
                 description=description,
                 note=note,
+                idempotency_key=idempotency_key,
             ).model_dump(mode="json"),
         )
         response.raise_for_status()
@@ -315,6 +321,7 @@ class AccountingClient(httpx.AsyncClient):
         hold_id: str | None = None,
         from_label: str | None = None,
         to_labels: list[str] | None = None,
+        idempotency_key: str | None = None,
     ) -> ProposalSchema:
         """
         Create a transfer proposal.
@@ -329,6 +336,7 @@ class AccountingClient(httpx.AsyncClient):
             hold_id: Optional hold ID to use
             from_label: Optional label for source wallet
             to_labels: Optional labels for destination wallets
+            idempotency_key: Retry-safe key; replays return the first one
 
         Returns:
             Created proposal schema
@@ -362,6 +370,7 @@ class AccountingClient(httpx.AsyncClient):
                 currency=currency,
                 description=description,
                 note=note,
+                idempotency_key=idempotency_key,
             ).model_dump(mode="json"),
         )
         response.raise_for_status()
