@@ -5,7 +5,7 @@ from decimal import Decimal
 from enum import StrEnum
 
 from fastapi_mongo_base.utils import bsontools, timezone
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 from ._schemas import TenantWorkspaceEntitySchema
 from .enums import Currency
@@ -30,6 +30,7 @@ class WalletHoldSchema(TenantWorkspaceEntitySchema):
     expires_at: datetime | None = None
     status: HoldStatus = HoldStatus.ACTIVE
     description: str | None = None
+    idempotency_key: str | None = None
 
     @field_validator("amount", mode="before")
     @classmethod
@@ -68,6 +69,9 @@ class WalletHoldCreateSchema(BaseModel):
     status: HoldStatus = HoldStatus.ACTIVE
     meta_data: dict | None = None
     description: str | None = None
+    idempotency_key: str | None = Field(
+        default=None, min_length=1, max_length=64
+    )
 
 
 class WalletHoldUpdateSchema(BaseModel):
